@@ -148,8 +148,9 @@ def execute_code(state: AgentState) -> AgentState:
     """Execute the generated Pandas code on the actual CSV."""
     try:
         df = pd.read_csv(state["csv_path"])
-        local_vars = {"df": df, "pd": pd}
-        exec(state["generated_code"], {}, local_vars)
+        exec_globals = {"pd": pd, "re": __import__("re"), "datetime": __import__("datetime")}
+        local_vars = {"df": df}
+        exec(state["generated_code"], exec_globals, local_vars)
         result_df = local_vars["result_df"]
         return {"transformed_data": result_df.to_dict(orient="records")}
     except Exception as e:
@@ -219,11 +220,12 @@ def build_graph():
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+AGENT_OUTPUT_DIR = "results/agent_outputs"
+
+
 def run_migration(csv_path: str, run_id: uuid.UUID | None = None):
-    """Run the data migration agent on a CSV file."""
-    print(f"\n{'='*60}")
+    """Run the data migration agent on a CSV file and save results to disk."""
     print(f"Processing: {csv_path}")
-    print(f"{'='*60}")
 
     app = build_graph()
 
@@ -243,23 +245,68 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None):
 
     config = {"run_id": run_id, "run_name": f"migrate-{os.path.basename(csv_path)}"}
     result = app.invoke(initial_state, config=config)
-    result["_run_id"] = run_id
+    result["_run_id"] = str(run_id)
 
-    print(f"\nSource columns: {result['raw_columns']}")
-    print(f"\nColumn mapping: {json.dumps(result['column_mapping'], indent=2)}")
-    print(f"\nGenerated code:\n{result['generated_code']}")
+    # Save result to disk
+    os.makedirs(AGENT_OUTPUT_DIR, exist_ok=True)
+    # Name output after the input CSV: test_000.csv -> test_000.json
+    base_name = os.path.splitext(os.path.basename(csv_path))[0]
+    output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
 
-    if result.get("error"):
-        print(f"\nERROR: {result['error']}")
-    else:
-        print(f"\nTransformed data:")
-        result_df = pd.DataFrame(result["transformed_data"])
-        print(result_df.to_string(index=False))
+    serializable = {
+        "csv_file": os.path.basename(csv_path),
+        "csv_path": csv_path,
+        "raw_columns": result["raw_columns"],
+        "sample_rows": result["sample_rows"],
+        "column_mapping": result["column_mapping"],
+        "generated_code": result["generated_code"],
+        "transformed_data": result["transformed_data"],
+        "validation_result": result["validation_result"],
+        "error": result.get("error", ""),
+        "run_id": str(run_id),
+    }
 
-    print(f"\nValidation: {json.dumps(result['validation_result'], indent=2)}")
+    with open(output_path, "w") as f:
+        json.dump(serializable, f, indent=2, default=str)
+
+    print(f"  Saved: {output_path}")
     return result
 
 
+def run_all(test_dir: str = "data/test"):
+    """Run the agent on all test CSVs and save each result."""
+    csv_files = sorted(f for f in os.listdir(test_dir) if f.endswith(".csv"))
+    print(f"Running agent on {len(csv_files)} CSVs from {test_dir}/\n")
+
+    for csv_file in csv_files:
+        csv_path = os.path.join(test_dir, csv_file)
+        try:
+            run_migration(csv_path)
+        except Exception as e:
+            print(f"  ERROR: {e}")
+            # Save error result
+            os.makedirs(AGENT_OUTPUT_DIR, exist_ok=True)
+            base_name = os.path.splitext(csv_file)[0]
+            output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
+            with open(output_path, "w") as f:
+                json.dump({
+                    "csv_file": csv_file,
+                    "csv_path": csv_path,
+                    "raw_columns": [],
+                    "sample_rows": [],
+                    "column_mapping": {},
+                    "generated_code": "",
+                    "transformed_data": [],
+                    "validation_result": {},
+                    "error": str(e),
+                    "run_id": "",
+                }, f, indent=2)
+
+    print(f"\nDone. Results saved to {AGENT_OUTPUT_DIR}/")
+
+
 if __name__ == "__main__":
-    csv_file = sys.argv[1] if len(sys.argv) > 1 else "data/sample_messy_1.csv"
-    run_migration(csv_file)
+    if len(sys.argv) > 1:
+        run_migration(sys.argv[1])
+    else:
+        run_all()
