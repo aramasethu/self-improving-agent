@@ -223,7 +223,7 @@ def build_graph():
 AGENT_OUTPUT_DIR = "results/agent_outputs"
 
 
-def run_migration(csv_path: str, run_id: uuid.UUID | None = None):
+def run_migration(csv_path: str, run_id: uuid.UUID | None = None, metadata: dict | None = None):
     """Run the data migration agent on a CSV file and save results to disk."""
     print(f"Processing: {csv_path}")
 
@@ -243,7 +243,16 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None):
         "error": "",
     }
 
-    config = {"run_id": run_id, "run_name": f"migrate-{os.path.basename(csv_path)}"}
+    run_metadata = {"csv_file": os.path.basename(csv_path)}
+    if metadata:
+        run_metadata.update(metadata)
+
+    config = {
+        "run_id": run_id,
+        "run_name": f"migrate-{os.path.basename(csv_path)}",
+        "metadata": run_metadata,
+        "tags": metadata.get("tags", []) if metadata else [],
+    }
     result = app.invoke(initial_state, config=config)
     result["_run_id"] = str(run_id)
 
@@ -273,18 +282,34 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None):
     return result
 
 
-def run_all(test_dir: str = "data/test"):
+def run_all(test_dir: str = "data/test", ground_truth_path: str = "data/ground_truth.json"):
     """Run the agent on all test CSVs and save each result."""
+    # Load ground truth for metadata tagging
+    gt_lookup = {}
+    if os.path.exists(ground_truth_path):
+        with open(ground_truth_path) as f:
+            for entry in json.load(f):
+                gt_lookup[entry["csv_file"]] = entry
+
     csv_files = sorted(f for f in os.listdir(test_dir) if f.endswith(".csv"))
     print(f"Running agent on {len(csv_files)} CSVs from {test_dir}/\n")
 
     for csv_file in csv_files:
         csv_path = os.path.join(test_dir, csv_file)
+
+        # Build metadata from ground truth
+        gt_entry = gt_lookup.get(csv_file, {})
+        metadata = {
+            "challenges": gt_entry.get("challenges", []),
+            "date_format": gt_entry.get("date_format", ""),
+            "salary_format": gt_entry.get("salary_format", ""),
+            "tags": gt_entry.get("challenges", []),
+        }
+
         try:
-            run_migration(csv_path)
+            run_migration(csv_path, metadata=metadata)
         except Exception as e:
             print(f"  ERROR: {e}")
-            # Save error result
             os.makedirs(AGENT_OUTPUT_DIR, exist_ok=True)
             base_name = os.path.splitext(csv_file)[0]
             output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")

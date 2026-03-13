@@ -19,6 +19,12 @@ import json
 import os
 import re
 from datetime import datetime
+from langsmith import Client
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ls_client = Client()
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -66,6 +72,34 @@ def score_execution(agent_result: dict) -> dict:
         "success": success,
         "error": error,
     }
+
+
+# ---------------------------------------------------------------------------
+# LangSmith feedback
+# ---------------------------------------------------------------------------
+def record_feedback(run_id: str, schema_score: dict, exec_score: dict, field_score: dict):
+    """Push evaluation scores as LangSmith feedback on the traced run."""
+    if not run_id:
+        return
+    try:
+        ls_client.create_feedback(
+            run_id=run_id,
+            key="schema_accuracy",
+            score=schema_score["accuracy"],
+        )
+        ls_client.create_feedback(
+            run_id=run_id,
+            key="execution_success",
+            score=1.0 if exec_score["success"] else 0.0,
+            comment=exec_score.get("error", ""),
+        )
+        ls_client.create_feedback(
+            run_id=run_id,
+            key="field_correctness",
+            score=field_score["score"],
+        )
+    except Exception as e:
+        print(f"    Warning: feedback recording failed: {e}")
 
 
 # ---------------------------------------------------------------------------
@@ -201,6 +235,10 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
                   f"exec={exec_label}  "
                   f"fields={field_score['score']:.0%}")
 
+            # Push scores to LangSmith
+            run_id = agent_result.get("run_id", "")
+            record_feedback(run_id, schema_score, exec_score, field_score)
+
             batch_schema_sum += schema_score["accuracy"]
             if exec_score["success"]:
                 batch_exec_ok += 1
@@ -208,6 +246,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
 
             batch_results.append({
                 "csv_file": csv_file,
+                "run_id": run_id,
                 "schema_score": schema_score,
                 "exec_score": exec_score,
                 "field_score": field_score,
