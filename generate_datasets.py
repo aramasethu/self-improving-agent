@@ -47,8 +47,8 @@ NAME_VARIANTS = [
     ("full_name",    " full_name "),       # leading/trailing whitespace
     ("full_name",    "fullname"),
     ("full_name",    "ename"),
-    ("full_name",    "Worker"),
-    ("full_name",    "team_member"),
+    ("full_name",    "resource"),           # ambiguous: could be anything
+    ("full_name",    "personnel"),          # ambiguous HR jargon
 ]
 
 EMAIL_VARIANTS = [
@@ -70,8 +70,8 @@ EMAIL_VARIANTS = [
     ("email",    "office_email"),
     ("email",    "work_email_address"),
     ("email",    "primary_email"),
-    ("email",    "contact"),
-    ("email",    "email_address"),
+    ("email",    "contact"),               # ambiguous: could be phone
+    ("email",    "addr"),                   # ambiguous: could be physical address
 ]
 
 DEPT_VARIANTS = [
@@ -93,8 +93,8 @@ DEPT_VARIANTS = [
     ("department",   "dept_code"),
     ("department",   "work_group"),
     ("department",   "departmentName"),
-    ("department",   "Division"),
-    ("department",   "Team"),
+    ("department",   "vertical"),          # ambiguous startup jargon
+    ("department",   "practice"),          # ambiguous: consulting term
 ]
 
 DATE_VARIANTS = [
@@ -133,14 +133,14 @@ SALARY_VARIANTS = [
     ("salary_usd",   "SALARY"),
     ("salary_usd",   "yearly_pay"),
     ("salary_usd",   "remuneration"),
-    ("salary_usd",   "ctc"),
+    ("salary_usd",   "ctc"),               # ambiguous: "cost to company"
     ("salary_usd",   "annual_compensation"),
     ("salary_usd",   "wage"),
     ("salary_usd",   "salary_usd"),
     ("salary_usd",   "gross_salary"),
     ("salary_usd",   "Annual Pay"),
-    ("salary_usd",   "comp"),
-    ("salary_usd",   "package"),
+    ("salary_usd",   "band"),              # very ambiguous: could be pay grade
+    ("salary_usd",   "TC"),                # ambiguous: "total comp" abbreviation
 ]
 
 MANAGER_VARIANTS = [
@@ -162,9 +162,17 @@ MANAGER_VARIANTS = [
     ("manager_name", "superior"),
     ("manager_name", "manager_full_name"),
     ("manager_name", "Supervisor"),
-    ("manager_name", "lead"),
-    ("manager_name", "approver"),
+    ("manager_name", "N+1"),               # ambiguous: French corporate term for manager
+    ("manager_name", "escalation"),         # ambiguous: could be escalation contact
 ]
+
+# Shuffle variant lists so hard names are distributed across all batches
+random.shuffle(NAME_VARIANTS)
+random.shuffle(EMAIL_VARIANTS)
+random.shuffle(DEPT_VARIANTS)
+random.shuffle(DATE_VARIANTS)
+random.shuffle(SALARY_VARIANTS)
+random.shuffle(MANAGER_VARIANTS)
 
 # Extra columns to randomly add as distractors
 EXTRA_COLUMNS = [
