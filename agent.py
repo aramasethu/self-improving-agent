@@ -12,6 +12,7 @@ Self-improvement:
 
 import json
 import os
+import sqlite3
 import sys
 import uuid
 import pandas as pd
@@ -19,7 +20,8 @@ from dotenv import load_dotenv
 from typing import TypedDict
 
 from langchain_anthropic import ChatAnthropic
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
+from langchain_core.tools import tool
 from langgraph.graph import StateGraph, START, END
 
 load_dotenv()
@@ -44,6 +46,103 @@ llm = ChatAnthropic(
     temperature=0,
     max_tokens=2048,
 )
+
+# ---------------------------------------------------------------------------
+# Module-level state for tools
+# ---------------------------------------------------------------------------
+_current_df: pd.DataFrame | None = None   # set by read_csv_sample, used by run_code
+_result_df: pd.DataFrame | None = None    # set by run_code, used by write_to_db
+DB_PATH = "results/migrations.db"
+
+
+# ---------------------------------------------------------------------------
+# Tool definitions
+# ---------------------------------------------------------------------------
+@tool
+def read_csv_sample(file_path: str, num_rows: int = 5) -> str:
+    """Read a CSV file and return column names + sample rows for inspection.
+
+    Args:
+        file_path: Path to the CSV file to read.
+        num_rows: Number of sample rows to return (default 5).
+    """
+    global _current_df
+    _current_df = pd.read_csv(file_path)
+    sample = _current_df.head(num_rows)
+    cols = _current_df.columns.tolist()
+    return f"Columns: {cols}\n\nSample rows ({num_rows}):\n{sample.to_string(index=False)}"
+
+
+@tool
+def run_code(code: str) -> str:
+    """Execute pandas transformation code against the loaded DataFrame.
+
+    The code should assume `df` is the loaded DataFrame and assign the result to `result_df`.
+
+    Args:
+        code: Python/Pandas code to execute.
+    """
+    global _result_df
+    if _current_df is None:
+        return "Error: No DataFrame loaded. Call read_csv_sample first."
+    exec_globals = {"pd": pd, "re": __import__("re"), "datetime": __import__("datetime")}
+    local_vars = {"df": _current_df.copy()}
+    try:
+        exec(code, exec_globals, local_vars)
+        _result_df = local_vars["result_df"]
+        return f"Success. result_df shape: {_result_df.shape}\n\nFirst 3 rows:\n{_result_df.head(3).to_string(index=False)}"
+    except Exception as e:
+        return f"Error: {e}"
+
+
+@tool
+def write_to_db(table_name: str) -> str:
+    """Write the transformed DataFrame to a SQLite database.
+
+    Args:
+        table_name: Name of the table to write to.
+    """
+    if _result_df is None:
+        return "Error: No result DataFrame available. Call run_code first."
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        _result_df.to_sql(table_name, conn, if_exists="append", index=False)
+        return f"Success. Wrote {len(_result_df)} rows to table '{table_name}' in {DB_PATH}"
+    except Exception as e:
+        return f"Error writing to database: {e}"
+    finally:
+        conn.close()
+
+
+TOOLS = [read_csv_sample, run_code, write_to_db]
+TOOL_MAP = {t.name: t for t in TOOLS}
+
+
+# ---------------------------------------------------------------------------
+# Tool-calling helper
+# ---------------------------------------------------------------------------
+def run_llm_with_tools(messages: list, tools: list | None = None) -> str:
+    """Run LLM in a loop, executing tool calls until it returns a text response.
+
+    Returns the final text content from the LLM.
+    """
+    if tools is None:
+        tools = TOOLS
+    llm_with_tools = llm.bind_tools(tools)
+
+    while True:
+        response = llm_with_tools.invoke(messages)
+        messages.append(response)
+
+        if not response.tool_calls:
+            return response.content
+
+        for tc in response.tool_calls:
+            tool_fn = TOOL_MAP[tc["name"]]
+            result = tool_fn.invoke(tc["args"])
+            messages.append(ToolMessage(content=str(result), tool_call_id=tc["id"]))
+
 
 # ---------------------------------------------------------------------------
 # Hook configuration
@@ -159,16 +258,23 @@ class AgentState(TypedDict):
 
 
 # ---------------------------------------------------------------------------
-# Node 1: Analyze the input CSV
+# Node 1: Analyze the input CSV (tool-calling)
 # ---------------------------------------------------------------------------
 def analyze_csv(state: AgentState) -> AgentState:
-    """Read the CSV and extract column names + sample rows."""
+    """LLM calls read_csv_sample tool to inspect the CSV."""
     csv_path = state["csv_path"]
-    df = pd.read_csv(csv_path)
 
+    messages = [
+        SystemMessage(content="You are a data migration agent. Use the read_csv_sample tool to inspect the CSV file. "
+                      "After inspecting, briefly summarize what you see."),
+        HumanMessage(content=f"Please inspect this CSV file: {csv_path}"),
+    ]
+    run_llm_with_tools(messages, tools=[read_csv_sample])
+
+    # _current_df is now populated by the tool
     return {
-        "raw_columns": df.columns.tolist(),
-        "sample_rows": df.head(3).to_dict(orient="records"),
+        "raw_columns": _current_df.columns.tolist(),
+        "sample_rows": _current_df.head(3).to_dict(orient="records"),
     }
 
 
@@ -262,26 +368,32 @@ Generate the transformation code."""),
 
 
 # ---------------------------------------------------------------------------
-# Node 4: Execute the generated code (with retry hook)
+# Node 4: Execute the generated code (tool-calling with retry hook)
 # ---------------------------------------------------------------------------
 def execute_code(state: AgentState) -> AgentState:
-    """Execute the generated Pandas code on the actual CSV."""
-    try:
-        df = pd.read_csv(state["csv_path"])
-        exec_globals = {"pd": pd, "re": __import__("re"), "datetime": __import__("datetime")}
-        local_vars = {"df": df}
-        exec(state["generated_code"], exec_globals, local_vars)
-        result_df = local_vars["result_df"]
+    """LLM calls run_code tool to execute the generated transformation code."""
+    global _result_df
+    _result_df = None  # reset so we can detect failure
+    code = state["generated_code"]
+
+    messages = [
+        SystemMessage(content="You are a data migration agent. Use the run_code tool to execute the provided "
+                      "transformation code. Report whether it succeeded or failed."),
+        HumanMessage(content=f"Execute this transformation code:\n\n{code}"),
+    ]
+    result_text = run_llm_with_tools(messages, tools=[run_code])
+
+    if _result_df is not None:
         return {
-            "transformed_data": result_df.to_dict(orient="records"),
+            "transformed_data": _result_df.to_dict(orient="records"),
             "error": "",
         }
-    except Exception as e:
+    else:
         retry_count = state.get("retry_count", 0)
         retry_errors = list(state.get("retry_errors", []))
-        retry_errors.append(str(e))
+        retry_errors.append(result_text)
         return {
-            "error": f"Code execution failed: {e}",
+            "error": f"Code execution failed: {result_text}",
             "retry_count": retry_count,
             "retry_errors": retry_errors,
         }
@@ -326,12 +438,29 @@ def validate_output(state: AgentState) -> AgentState:
 
 
 # ---------------------------------------------------------------------------
+# Node 6: Load to database (tool-calling, NEW)
+# ---------------------------------------------------------------------------
+def load_to_db(state: AgentState) -> AgentState:
+    """LLM calls write_to_db tool to load transformed data into SQLite."""
+    csv_file = os.path.basename(state["csv_path"])
+    table_name = os.path.splitext(csv_file)[0]
+
+    messages = [
+        SystemMessage(content="You are a data migration agent. Use the write_to_db tool to load the "
+                      "transformed data into the database."),
+        HumanMessage(content=f"Load the transformed data into table '{table_name}'."),
+    ]
+    run_llm_with_tools(messages, tools=[write_to_db])
+    return {}
+
+
+# ---------------------------------------------------------------------------
 # Routing: should we retry or move on?
 # ---------------------------------------------------------------------------
 def should_retry(state: AgentState) -> str:
-    """Decide whether to retry code generation or proceed to validation."""
+    """Decide whether to retry code generation or proceed to load_to_db."""
     if not state.get("error"):
-        return "validate_output"
+        return "load_to_db"
 
     retry_count = state.get("retry_count", 0)
     max_retries = HOOK_CONFIG["max_retries"]
@@ -363,6 +492,7 @@ def build_graph():
     graph.add_node("generate_code", generate_code)
     graph.add_node("execute_code", execute_code)
     graph.add_node("retry_generate", retry_generate)
+    graph.add_node("load_to_db", load_to_db)
     graph.add_node("validate_output", validate_output)
 
     graph.add_edge(START, "analyze_csv")
@@ -370,14 +500,18 @@ def build_graph():
     graph.add_edge("map_columns", "generate_code")
     graph.add_edge("generate_code", "execute_code")
 
-    # Conditional: retry or proceed
+    # Conditional: retry, load to db, or skip to validation on final error
     graph.add_conditional_edges("execute_code", should_retry, {
         "retry_generate": "retry_generate",
+        "load_to_db": "load_to_db",
         "validate_output": "validate_output",
     })
 
     # After retry, execute again
     graph.add_edge("retry_generate", "execute_code")
+
+    # After loading to db, validate
+    graph.add_edge("load_to_db", "validate_output")
 
     graph.add_edge("validate_output", END)
 
