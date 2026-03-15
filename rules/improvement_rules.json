@@ -1,0 +1,51 @@
+{
+  "rules": [
+    {
+      "id": "datetime_strptime_import",
+      "rule": "When using datetime.strptime() to parse dates, import it correctly with 'from datetime import datetime' and call it as 'datetime.strptime()'. Alternatively, import the datetime module itself with 'import datetime' and call 'datetime.datetime.strptime()'. Never use 'from datetime import datetime' and then call 'datetime.strptime()' as strptime is a method of the datetime class, not the module.",
+      "pattern": "namespace: datetime.strptime",
+      "severity": "high",
+      "added_at": "2026-03-14T18:16:01.605859"
+    },
+    {
+      "id": "verify_method_availability",
+      "rule": "Before using any method from an imported module or class, verify that the method exists on that object. For datetime operations, remember that strptime() is a classmethod of the datetime class, not a module-level function. If importing 'from datetime import datetime', use 'datetime.strptime()'. If importing 'import datetime', use 'datetime.datetime.strptime()'.",
+      "pattern": "namespace: datetime.strptime",
+      "severity": "high",
+      "added_at": "2026-03-14T18:16:01.605872"
+    },
+    {
+      "id": "date_parsing_best_practice",
+      "rule": "When parsing date strings in pandas DataFrames, prefer using pd.to_datetime() instead of manual datetime.strptime() calls. This is more robust and handles various date formats automatically. Example: 'df['start_date'] = pd.to_datetime(df['start_date'])' instead of applying strptime manually.",
+      "pattern": "namespace: datetime.strptime",
+      "severity": "medium",
+      "added_at": "2026-03-14T18:16:01.605877"
+    },
+    {
+      "id": "datetime_parsing_pattern",
+      "rule": "When parsing date strings in pandas DataFrames, use pd.to_datetime() as the preferred method instead of manual datetime.strptime() calls. This is more robust and handles various date formats automatically. Only use datetime.strptime() if you need very specific format control, and ensure the import statement matches the usage pattern.",
+      "pattern": "namespace: datetime.strptime",
+      "severity": "medium",
+      "added_at": "2026-03-14T18:17:08.602535"
+    },
+    {
+      "id": "datetime_method_availability",
+      "rule": "Remember that strptime() is a class method of the datetime.datetime class, not a module-level function. When you import 'from datetime import datetime', you are importing the class, so you must call it as 'datetime.strptime()'. If you import 'import datetime', you must call it as 'datetime.datetime.strptime()'. Never assume strptime is directly available on the datetime module.",
+      "pattern": "namespace: datetime.strptime",
+      "severity": "high",
+      "added_at": "2026-03-14T18:18:14.711283"
+    },
+    {
+      "id": "pandas_datetime_preference",
+      "rule": "When parsing dates in pandas DataFrames, use pd.to_datetime() instead of datetime.strptime(). This is more efficient, handles multiple date formats automatically, and avoids namespace issues.",
+      "pattern": "namespace: datetime.strptime",
+      "severity": "medium",
+      "added_at": "2026-03-14T18:22:21.445708"
+    }
+  ],
+  "metadata": {
+    "last_analysis": "2026-03-14T18:22:21.445717",
+    "total_runs_analyzed": 600,
+    "version": 6
+  }
+}
