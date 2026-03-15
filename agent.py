@@ -52,7 +52,9 @@ llm = ChatAnthropic(
 # ---------------------------------------------------------------------------
 _current_df: pd.DataFrame | None = None   # set by read_csv_sample, used by run_code
 _result_df: pd.DataFrame | None = None    # set by run_code, used by write_to_db
+_llm_call_count: int = 0                  # tracks LLM calls across the entire run
 DB_PATH = "results/migrations.db"
+MAX_LLM_CALLS_PER_RUN = 10                # hard ceiling per CSV
 
 
 # ---------------------------------------------------------------------------
@@ -125,13 +127,20 @@ TOOL_MAP = {t.name: t for t in TOOLS}
 def run_llm_with_tools(messages: list, tools: list | None = None) -> str:
     """Run LLM in a loop, executing tool calls until it returns a text response.
 
-    Returns the final text content from the LLM.
+    Checks the global _llm_call_count against MAX_LLM_CALLS_PER_RUN.
+    Returns the final text content from the LLM, or an error if budget exhausted.
     """
+    global _llm_call_count
+
     if tools is None:
         tools = TOOLS
     llm_with_tools = llm.bind_tools(tools)
 
     while True:
+        if _llm_call_count >= MAX_LLM_CALLS_PER_RUN:
+            return "Error: LLM call budget exhausted"
+
+        _llm_call_count += 1
         response = llm_with_tools.invoke(messages)
         messages.append(response)
 
@@ -255,6 +264,7 @@ class AgentState(TypedDict):
     error: str
     retry_count: int
     retry_errors: list[str]
+    llm_call_count: int
 
 
 # ---------------------------------------------------------------------------
@@ -283,11 +293,16 @@ def analyze_csv(state: AgentState) -> AgentState:
 # ---------------------------------------------------------------------------
 def map_columns(state: AgentState) -> AgentState:
     """Ask the LLM to map source columns to target schema columns."""
+    global _llm_call_count
+
+    if _llm_call_count >= MAX_LLM_CALLS_PER_RUN:
+        return {"column_mapping": {}, "error": "LLM call budget exhausted"}
 
     target_desc = json.dumps(TARGET_SCHEMA, indent=2)
     source_cols = json.dumps(state["raw_columns"])
     sample = json.dumps(state["sample_rows"], indent=2, default=str)
 
+    _llm_call_count += 1
     response = llm.invoke([
         SystemMessage(content=f"""You are a data migration expert. Your job is to map source CSV columns to a target schema.
 
@@ -317,6 +332,10 @@ Return the mapping as a JSON object. Nothing else."""),
 # ---------------------------------------------------------------------------
 def generate_code(state: AgentState) -> AgentState:
     """Generate Python/Pandas code to transform the data."""
+    global _llm_call_count
+
+    if _llm_call_count >= MAX_LLM_CALLS_PER_RUN:
+        return {"generated_code": "", "error": "LLM call budget exhausted"}
 
     mapping = json.dumps(state["column_mapping"], indent=2)
     sample = json.dumps(state["sample_rows"], indent=2, default=str)
@@ -353,6 +372,7 @@ Target schema:
 
 IMPORTANT: Return ONLY the Python code, no markdown fences, no explanation."""
 
+    _llm_call_count += 1
     response = llm.invoke([
         SystemMessage(content=system_prompt),
         HumanMessage(content=f"""Column mapping (source -> target): {mapping}
@@ -465,10 +485,13 @@ def should_retry(state: AgentState) -> str:
     retry_count = state.get("retry_count", 0)
     max_retries = HOOK_CONFIG["max_retries"]
 
-    if retry_count < max_retries:
-        print(f"    [hook] Retry {retry_count + 1}/{max_retries}: {state['error'][:80]}")
+    if retry_count < max_retries and _llm_call_count < MAX_LLM_CALLS_PER_RUN:
+        print(f"    [hook] Retry {retry_count + 1}/{max_retries} "
+              f"(LLM calls: {_llm_call_count}/{MAX_LLM_CALLS_PER_RUN}): {state['error'][:80]}")
         return "retry_generate"
     else:
+        if _llm_call_count >= MAX_LLM_CALLS_PER_RUN:
+            print(f"    [hook] Budget exhausted ({_llm_call_count}/{MAX_LLM_CALLS_PER_RUN}), skipping retry")
         return "validate_output"
 
 
@@ -526,6 +549,9 @@ AGENT_OUTPUT_DIR = "results/agent_outputs"
 
 def run_migration(csv_path: str, run_id: uuid.UUID | None = None, metadata: dict | None = None, iteration: int | None = None):
     """Run the data migration agent on a CSV file and save results to disk."""
+    global _llm_call_count
+    _llm_call_count = 0  # reset budget for each CSV
+
     print(f"Processing: {csv_path}")
 
     app = build_graph()
@@ -544,6 +570,7 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None, metadata: dict
         "error": "",
         "retry_count": 0,
         "retry_errors": [],
+        "llm_call_count": 0,
     }
 
     run_metadata = {"csv_file": os.path.basename(csv_path)}
@@ -583,6 +610,7 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None, metadata: dict
         "run_id": str(run_id),
         "retry_count": result.get("retry_count", 0),
         "retry_errors": result.get("retry_errors", []),
+        "llm_call_count": _llm_call_count,
     }
 
     with open(output_path, "w") as f:
@@ -656,6 +684,7 @@ def run_all(test_dir: str = "data/test", ground_truth_path: str = "data/ground_t
                     "run_id": "",
                     "retry_count": 0,
                     "retry_errors": [],
+                    "llm_call_count": _llm_call_count,
                 }, f, indent=2)
 
     print(f"\nDone. Results saved to {AGENT_OUTPUT_DIR}/")
