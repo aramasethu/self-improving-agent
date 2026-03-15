@@ -16,6 +16,7 @@ The analysis step is designed to be triggered:
 import argparse
 import json
 import os
+import shutil
 from collections import Counter
 from datetime import datetime
 
@@ -185,6 +186,59 @@ def merge_rules(new_rules: list[dict]) -> int:
         json.dump(data, f, indent=2)
 
     return added
+
+
+# ---------------------------------------------------------------------------
+# Step 5: Validate rules by comparing composite scores
+# ---------------------------------------------------------------------------
+VALIDATION_CSVS = [f"test_{i:03d}.csv" for i in range(10)]  # test_000 through test_009
+
+
+def validate_rules() -> bool:
+    """Run agent on 10 sample CSVs with new rules and compare composite score.
+
+    If the composite score drops, reverts to the previous rules file.
+    Returns True if rules were kept, False if discarded.
+    """
+    from agent import run_migration
+    from evaluate import compute_composite_for_csvs
+
+    # Compute baseline composite score from current agent outputs (before re-running)
+    baseline_score = compute_composite_for_csvs(VALIDATION_CSVS)
+
+    # Backup current rules file
+    rules_backup = RULES_FILE + ".backup"
+    if os.path.exists(RULES_FILE):
+        shutil.copy2(RULES_FILE, rules_backup)
+
+    # Re-run agent on the 10 validation CSVs with the new rules
+    print(f"\n  [validate] Running agent on {len(VALIDATION_CSVS)} validation CSVs...")
+    for csv_file in VALIDATION_CSVS:
+        csv_path = os.path.join("data/test", csv_file)
+        if os.path.exists(csv_path):
+            try:
+                run_migration(csv_path)
+            except Exception as e:
+                print(f"    [validate] Error on {csv_file}: {e}")
+
+    # Compute new composite score
+    new_score = compute_composite_for_csvs(VALIDATION_CSVS)
+    delta = new_score - baseline_score
+
+    if delta >= 0:
+        print(f"  [validate] Rules validated: composite {baseline_score:.2f} → {new_score:.2f} "
+              f"({delta:+.2f}) — KEEPING")
+        # Clean up backup
+        if os.path.exists(rules_backup):
+            os.remove(rules_backup)
+        return True
+    else:
+        print(f"  [validate] Rules validated: composite {baseline_score:.2f} → {new_score:.2f} "
+              f"({delta:+.2f}) — DISCARDING")
+        # Revert to previous rules
+        if os.path.exists(rules_backup):
+            shutil.move(rules_backup, RULES_FILE)
+        return False
 
 
 # ---------------------------------------------------------------------------

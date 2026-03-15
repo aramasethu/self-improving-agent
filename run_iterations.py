@@ -69,7 +69,7 @@ def show_rules_count():
 def main():
     from agent import run_all
     from evaluate import run_evaluation
-    from analyze_traces import run_analysis
+    from analyze_traces import run_analysis, validate_rules
 
     print("=" * 70)
     print("ITERATION RUNNER — 3 iterations with self-improvement")
@@ -89,6 +89,13 @@ def main():
             print(f"\n--- Analyzing traces from iteration {iteration - 1} ---")
             show_rules_count()
             run_analysis(min_failures=1)
+            show_rules_count()
+
+            # Validate: keep rules only if they don't hurt composite score
+            print(f"\n--- Validating rules ---")
+            kept = validate_rules()
+            if not kept:
+                print("  Bad rules discarded — continuing with previous rules.")
             show_rules_count()
 
         # Run agent on all CSVs

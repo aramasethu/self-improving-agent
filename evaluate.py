@@ -173,6 +173,50 @@ def score_fields(agent_result: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Composite score
+# ---------------------------------------------------------------------------
+def composite_score(schema_accuracy: float, execution_success: float, field_correctness: float) -> float:
+    """Weighted composite: 0.3 * schema + 0.3 * execution + 0.4 * fields."""
+    return 0.3 * schema_accuracy + 0.3 * execution_success + 0.4 * field_correctness
+
+
+def compute_composite_for_csvs(csv_files: list[str], ground_truth_path: str = GROUND_TRUTH) -> float:
+    """Compute average composite score for a specific list of CSV filenames.
+
+    Reads agent outputs from disk and scores against ground truth.
+    Returns the average composite score across all specified CSVs.
+    """
+    with open(ground_truth_path) as f:
+        all_gt = json.load(f)
+    gt_lookup = {entry["csv_file"]: entry for entry in all_gt}
+
+    scores = []
+    for csv_file in csv_files:
+        base_name = os.path.splitext(csv_file)[0]
+        agent_output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
+
+        gt_entry = gt_lookup.get(csv_file)
+        if not gt_entry or not os.path.exists(agent_output_path):
+            scores.append(0.0)
+            continue
+
+        with open(agent_output_path) as f:
+            agent_result = json.load(f)
+
+        schema = score_schema(agent_result.get("column_mapping", {}), gt_entry["column_mapping"])
+        exec_s = score_execution(agent_result)
+        field = score_fields(agent_result)
+
+        scores.append(composite_score(
+            schema["accuracy"],
+            1.0 if exec_s["success"] else 0.0,
+            field["score"],
+        ))
+
+    return sum(scores) / len(scores) if scores else 0.0
+
+
+# ---------------------------------------------------------------------------
 # Main evaluation loop
 # ---------------------------------------------------------------------------
 def run_evaluation(num_batches: int = NUM_BATCHES):
@@ -197,6 +241,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
         batch_schema_sum = 0.0
         batch_exec_ok = 0
         batch_field_sum = 0.0
+        batch_composite_sum = 0.0
         batch_results = []
 
         for i, gt_entry in enumerate(batch_gt):
@@ -239,10 +284,17 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
             run_id = agent_result.get("run_id", "")
             record_feedback(run_id, schema_score, exec_score, field_score)
 
+            csv_composite = composite_score(
+                schema_score["accuracy"],
+                1.0 if exec_score["success"] else 0.0,
+                field_score["score"],
+            )
+
             batch_schema_sum += schema_score["accuracy"]
             if exec_score["success"]:
                 batch_exec_ok += 1
             batch_field_sum += field_score["score"]
+            batch_composite_sum += csv_composite
 
             batch_results.append({
                 "csv_file": csv_file,
@@ -250,6 +302,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
                 "schema_score": schema_score,
                 "exec_score": exec_score,
                 "field_score": field_score,
+                "composite_score": csv_composite,
                 "challenges": gt_entry["challenges"],
                 "error": agent_result.get("error", ""),
             })
@@ -261,6 +314,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
             "avg_schema_accuracy": batch_schema_sum / batch_size,
             "execution_success_rate": batch_exec_ok / batch_size,
             "avg_field_score": batch_field_sum / batch_size,
+            "avg_composite_score": batch_composite_sum / batch_size,
         }
         batch_summaries.append(summary)
         all_results.extend(batch_results)
@@ -269,6 +323,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
         print(f"    Schema accuracy:     {summary['avg_schema_accuracy']:.1%}")
         print(f"    Execution success:   {summary['execution_success_rate']:.1%}")
         print(f"    Field correctness:   {summary['avg_field_score']:.1%}")
+        print(f"    Composite score:     {summary['avg_composite_score']:.1%}")
 
     # Save
     output = {"timestamp": timestamp, "batch_summaries": batch_summaries, "individual_results": all_results}
