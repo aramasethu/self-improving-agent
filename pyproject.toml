@@ -1,0 +1,21 @@
+[project]
+name = "langchain-migration-agent"
+version = "0.1.0"
+description = "Self-improving data migration agent with LangGraph + LangSmith"
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.84.0",
+    "langchain>=1.2.12",
+    "langchain-anthropic>=1.3.4",
+    "langchain-core>=1.2.18",
+    "langchain-openai>=1.1.11",
+    "langgraph>=1.1.1",
+    "langsmith>=0.7.16",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.3",
+    "openai>=2.26.0",
+    "pandas>=3.0.1",
+    "python-dotenv>=1.2.2",
+    "seaborn>=0.13.2",
+    "tiktoken>=0.12.0",
+]
