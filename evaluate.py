@@ -16,11 +16,14 @@ Usage:
 
 import argparse
 import json
+import logging
 import os
 import re
 from datetime import datetime
 from langsmith import Client
 from dotenv import load_dotenv
+
+log = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -30,7 +33,7 @@ ls_client = Client()
 # Constants
 # ---------------------------------------------------------------------------
 BATCH_SIZE = 20
-NUM_BATCHES = 5
+NUM_BATCHES = 6
 GROUND_TRUTH = "data/ground_truth.json"
 AGENT_OUTPUT_DIR = "results/agent_outputs"
 EVAL_RESULTS_DIR = "results/evaluations"
@@ -99,7 +102,7 @@ def record_feedback(run_id: str, schema_score: dict, exec_score: dict, field_sco
             score=field_score["score"],
         )
     except Exception as e:
-        print(f"    Warning: feedback recording failed: {e}")
+        log.warning("Feedback recording failed: %s", e)
 
 
 # ---------------------------------------------------------------------------
@@ -234,9 +237,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES, agent_output_dir: str = AGENT
         end = start + BATCH_SIZE
         batch_gt = all_gt[start:end]
 
-        print(f"\n{'='*70}")
-        print(f"BATCH {batch_idx + 1}/{num_batches}  (CSVs {start}–{end - 1})")
-        print(f"{'='*70}")
+        log.info("BATCH %d/%d (CSVs %d–%d)", batch_idx + 1, num_batches, start, end - 1)
 
         batch_schema_sum = 0.0
         batch_exec_ok = 0
@@ -252,7 +253,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES, agent_output_dir: str = AGENT
 
             # Load agent output
             if not os.path.exists(agent_output_path):
-                print(f"  [{global_idx:03d}] {csv_file}  MISSING — run agent.py first")
+                log.warning("[%03d] %s MISSING — run agent first", global_idx, csv_file)
                 batch_results.append({
                     "csv_file": csv_file,
                     "schema_score": {"accuracy": 0.0, "correct": [], "incorrect": [], "missing": []},
@@ -275,10 +276,10 @@ def run_evaluation(num_batches: int = NUM_BATCHES, agent_output_dir: str = AGENT
             field_score = score_fields(agent_result)
 
             exec_label = "OK" if exec_score["success"] else "ERR"
-            print(f"  [{global_idx:03d}] {csv_file}  "
-                  f"schema={schema_score['accuracy']:.0%}  "
-                  f"exec={exec_label}  "
-                  f"fields={field_score['score']:.0%}")
+            log.info("[%03d] %s  schema=%d%%  exec=%s  fields=%d%%",
+                     global_idx, csv_file,
+                     int(schema_score['accuracy'] * 100), exec_label,
+                     int(field_score['score'] * 100))
 
             # Push scores to LangSmith
             run_id = agent_result.get("run_id", "")
@@ -319,21 +320,48 @@ def run_evaluation(num_batches: int = NUM_BATCHES, agent_output_dir: str = AGENT
         batch_summaries.append(summary)
         all_results.extend(batch_results)
 
-        print(f"\n  Batch {batch_idx + 1}/{num_batches} Summary:")
-        print(f"    Schema accuracy:     {summary['avg_schema_accuracy']:.1%}")
-        print(f"    Execution success:   {summary['execution_success_rate']:.1%}")
-        print(f"    Field correctness:   {summary['avg_field_score']:.1%}")
-        print(f"    Composite score:     {summary['avg_composite_score']:.1%}")
+        log.info("Batch %d/%d: schema=%.1f%% exec=%.1f%% fields=%.1f%% composite=%.1f%%",
+                 batch_idx + 1, num_batches,
+                 summary['avg_schema_accuracy'] * 100, summary['execution_success_rate'] * 100,
+                 summary['avg_field_score'] * 100, summary['avg_composite_score'] * 100)
+
+    # Compute overall summary across all CSVs
+    total = len(all_results)
+    if total > 0:
+        overall_schema = sum(r["schema_score"]["accuracy"] for r in all_results) / total
+        overall_exec = sum(1 for r in all_results if r["exec_score"]["success"]) / total
+        overall_field = sum(r["field_score"]["score"] for r in all_results) / total
+        overall_composite = sum(r["composite_score"] for r in all_results) / total
+        total_failures = sum(1 for r in all_results if r.get("error"))
+    else:
+        overall_schema = overall_exec = overall_field = overall_composite = 0.0
+        total_failures = 0
+
+    overall_summary = {
+        "total_csvs": total,
+        "total_failures": total_failures,
+        "avg_schema_accuracy": overall_schema,
+        "execution_success_rate": overall_exec,
+        "avg_field_score": overall_field,
+        "avg_composite_score": overall_composite,
+    }
+
+    log.info("OVERALL (%d CSVs): schema=%.1f%% exec=%.1f%% (%d/%d) fields=%.1f%% composite=%.1f%%",
+             total, overall_schema * 100, overall_exec * 100,
+             total - total_failures, total, overall_field * 100, overall_composite * 100)
 
     # Save
-    output = {"timestamp": timestamp, "batch_summaries": batch_summaries, "individual_results": all_results}
+    output = {
+        "timestamp": timestamp,
+        "overall_summary": overall_summary,
+        "batch_summaries": batch_summaries,
+        "individual_results": all_results,
+    }
     eval_file = os.path.join(EVAL_RESULTS_DIR, f"eval_{timestamp}.json")
     with open(eval_file, "w") as f:
         json.dump(output, f, indent=2, default=str)
 
-    print(f"\n{'='*70}")
-    print(f"DONE — results saved to {eval_file}")
-    print(f"{'='*70}")
+    log.info("Saved to %s", eval_file)
     return output
 
 
@@ -342,4 +370,5 @@ if __name__ == "__main__":
     parser.add_argument("--batches", type=int, default=NUM_BATCHES,
                         help=f"Number of batches to evaluate (default: {NUM_BATCHES}). Use 1 for a quick test.")
     args = parser.parse_args()
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     run_evaluation(num_batches=args.batches)

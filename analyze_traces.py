@@ -15,10 +15,13 @@ The analysis step is designed to be triggered:
 
 import argparse
 import json
+import logging
 import os
 import shutil
 from collections import Counter
 from datetime import datetime
+
+log = logging.getLogger(__name__)
 
 from dotenv import load_dotenv
 from langsmith import Client
@@ -102,7 +105,7 @@ def generate_rules(clusters: dict[str, list[dict]], min_failures: int = 2) -> li
     significant = {k: v for k, v in clusters.items() if len(v) >= min_failures}
 
     if not significant:
-        print("  No error patterns meet the minimum frequency threshold.")
+        log.info("No error patterns meet the minimum frequency threshold.")
         return []
 
     # Build a summary for the LLM
@@ -152,7 +155,7 @@ Generate improvement rules to prevent these errors."""),
         )
         return rules
     except json.JSONDecodeError:
-        print(f"  Warning: could not parse LLM response as JSON")
+        log.warning("Could not parse LLM response as JSON")
         return []
 
 
@@ -212,29 +215,27 @@ def validate_rules() -> bool:
         shutil.copy2(RULES_FILE, rules_backup)
 
     # Re-run agent on the 10 validation CSVs with the new rules
-    print(f"\n  [validate] Running agent on {len(VALIDATION_CSVS)} validation CSVs...")
+    log.info("Running agent on %d validation CSVs...", len(VALIDATION_CSVS))
     for csv_file in VALIDATION_CSVS:
         csv_path = os.path.join("data/test", csv_file)
         if os.path.exists(csv_path):
             try:
                 run_migration(csv_path)
             except Exception as e:
-                print(f"    [validate] Error on {csv_file}: {e}")
+                log.warning("Validation error on %s: %s", csv_file, e)
 
     # Compute new composite score
     new_score = compute_composite_for_csvs(VALIDATION_CSVS)
     delta = new_score - baseline_score
 
     if delta >= 0:
-        print(f"  [validate] Rules validated: composite {baseline_score:.2f} → {new_score:.2f} "
-              f"({delta:+.2f}) — KEEPING")
+        log.info("Rules validated: composite %.2f → %.2f (%+.2f) — KEEPING", baseline_score, new_score, delta)
         # Clean up backup
         if os.path.exists(rules_backup):
             os.remove(rules_backup)
         return True
     else:
-        print(f"  [validate] Rules validated: composite {baseline_score:.2f} → {new_score:.2f} "
-              f"({delta:+.2f}) — DISCARDING")
+        log.info("Rules validated: composite %.2f → %.2f (%+.2f) — DISCARDING", baseline_score, new_score, delta)
         # Revert to previous rules
         if os.path.exists(rules_backup):
             shutil.move(rules_backup, RULES_FILE)
@@ -245,42 +246,33 @@ def validate_rules() -> bool:
 # Main
 # ---------------------------------------------------------------------------
 def run_analysis(min_failures: int = 2, agent_output_dir: str = AGENT_OUTPUT_DIR):
-    print(f"{'='*60}")
-    print("Self-Improvement: Trace Analysis")
-    print(f"{'='*60}")
+    log.info("Trace Analysis — collecting failures from %s", agent_output_dir)
 
-    # Step 1: Collect failures
     failures = collect_failures(agent_output_dir=agent_output_dir)
-    print(f"\nTotal execution failures: {len(failures)}")
+    log.info("Total execution failures: %d", len(failures))
 
     if not failures:
-        print("No failures to analyze. Skipping.")
+        log.info("No failures to analyze.")
         return
 
-    # Step 2: Cluster
     clusters = cluster_errors(failures)
-    print(f"Error patterns found: {len(clusters)}")
+    log.info("Error patterns found: %d", len(clusters))
     for pattern, items in sorted(clusters.items(), key=lambda x: -len(x[1])):
-        print(f"  [{len(items):2d}x] {pattern}")
+        log.info("  [%2dx] %s", len(items), pattern)
 
-    # Step 3: Generate rules
-    print(f"\nGenerating improvement rules (min_failures={min_failures})...")
+    log.info("Generating improvement rules (min_failures=%d)...", min_failures)
     new_rules = generate_rules(clusters, min_failures=min_failures)
-    print(f"Rules generated: {len(new_rules)}")
+    log.info("Rules generated: %d", len(new_rules))
 
-    if new_rules:
-        for r in new_rules:
-            print(f"  [{r['id']}] {r['rule'][:80]}")
+    for r in new_rules:
+        log.info("  [%s] %s", r['id'], r['rule'][:80])
 
-    # Step 4: Merge
     added = merge_rules(new_rules)
-    print(f"\nNew rules added to {RULES_FILE}: {added}")
+    log.info("New rules added to %s: %d", RULES_FILE, added)
 
-    # Show current state
     with open(RULES_FILE) as f:
         data = json.load(f)
-    print(f"Total rules in store: {len(data['rules'])}")
-    print(f"{'='*60}")
+    log.info("Total rules in store: %d", len(data['rules']))
 
 
 if __name__ == "__main__":
@@ -288,4 +280,5 @@ if __name__ == "__main__":
     parser.add_argument("--min-failures", type=int, default=2,
                         help="Minimum failures for a pattern to generate a rule (default: 2)")
     args = parser.parse_args()
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     run_analysis(min_failures=args.min_failures)
