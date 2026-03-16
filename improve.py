@@ -9,14 +9,17 @@ Usage:
 """
 
 import json
+import logging
 import os
 
 from agent import run_all, get_current_iteration, AGENT_OUTPUT_DIR
 from evaluate import run_evaluation, compute_composite_for_csvs
 from analyze_traces import run_analysis, validate_rules, VALIDATION_CSVS, RULES_FILE
 
+log = logging.getLogger(__name__)
 
-def improve(test_dir="data/test", sample_size=10, verbose=True):
+
+def improve(test_dir="data/test", sample_size=10):
     """Run one improvement cycle:
     1. Run agent on all CSVs
     2. Evaluate results (composite score)
@@ -36,32 +39,16 @@ def improve(test_dir="data/test", sample_size=10, verbose=True):
     # Composite score before (from existing agent outputs)
     composite_before = compute_composite_for_csvs(VALIDATION_CSVS)
 
-    # Step 1: Run agent on all CSVs
-    if verbose:
-        print("\n" + "=" * 60)
-        print("STEP 1: Running agent on all CSVs")
-        print("=" * 60)
+    log.info("STEP 1: Running agent on all CSVs")
     run_all(test_dir=test_dir)
 
-    # Step 2: Evaluate
-    if verbose:
-        print("\n" + "=" * 60)
-        print("STEP 2: Evaluating results")
-        print("=" * 60)
+    log.info("STEP 2: Evaluating results")
     run_evaluation()
 
-    # Step 3: Analyze traces and generate rules
-    if verbose:
-        print("\n" + "=" * 60)
-        print("STEP 3: Analyzing traces")
-        print("=" * 60)
+    log.info("STEP 3: Analyzing traces")
     run_analysis(min_failures=1)
 
-    # Step 4: Validate rules (keep or discard)
-    if verbose:
-        print("\n" + "=" * 60)
-        print("STEP 4: Validating rules")
-        print("=" * 60)
+    log.info("STEP 4: Validating rules")
     kept = validate_rules()
 
     # Composite score after
@@ -98,21 +85,14 @@ def improve(test_dir="data/test", sample_size=10, verbose=True):
         "llm_calls_total": llm_calls_total,
     }
 
-    if verbose:
-        print("\n" + "=" * 60)
-        print("IMPROVEMENT CYCLE COMPLETE")
-        print("=" * 60)
-        print(f"  Iteration:        {result['iteration']}")
-        print(f"  Composite before: {result['composite_before']:.2%}")
-        print(f"  Composite after:  {result['composite_after']:.2%}")
-        delta = result['composite_after'] - result['composite_before']
-        print(f"  Delta:            {delta:+.2%}")
-        print(f"  Rules added:      {result['rules_added']}")
-        print(f"  Rules discarded:  {result['rules_discarded']}")
-        print(f"  Total LLM calls:  {result['llm_calls_total']}")
+    delta = result['composite_after'] - result['composite_before']
+    log.info("COMPLETE: iter=%d composite=%.2f%%→%.2f%% (%+.2f%%) rules_added=%d discarded=%d llm_calls=%d",
+             result['iteration'], result['composite_before'] * 100, result['composite_after'] * 100,
+             delta * 100, result['rules_added'], result['rules_discarded'], result['llm_calls_total'])
 
     return result
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     improve()
