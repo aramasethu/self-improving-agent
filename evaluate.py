@@ -259,6 +259,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES, agent_output_dir: str = AGENT
                     "schema_score": {"accuracy": 0.0, "correct": [], "incorrect": [], "missing": []},
                     "exec_score": {"success": False, "error": "agent output not found"},
                     "field_score": {"score": 0.0, "issues": ["agent output not found"]},
+                    "composite_score": 0.0,
                     "challenges": gt_entry["challenges"],
                     "error": "agent output not found",
                 })
