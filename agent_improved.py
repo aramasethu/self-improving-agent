@@ -15,12 +15,15 @@ Usage:
 """
 
 import json
+import logging
 import os
 import sys
 import uuid
 import pandas as pd
 from dotenv import load_dotenv
 from typing import TypedDict
+
+log = logging.getLogger(__name__)
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
@@ -334,8 +337,8 @@ def should_retry(state: AgentState) -> str:
         return "validate_output"
     retry_count = state.get("retry_count", 0)
     if retry_count < MAX_RETRIES and _llm_call_count < MAX_LLM_CALLS_PER_RUN:
-        print(f"    [retry] {retry_count + 1}/{MAX_RETRIES} "
-              f"(LLM: {_llm_call_count}/{MAX_LLM_CALLS_PER_RUN}): {state['error'][:80]}")
+        log.info("Retry %d/%d (LLM: %d/%d): %s",
+                 retry_count + 1, MAX_RETRIES, _llm_call_count, MAX_LLM_CALLS_PER_RUN, state['error'][:80])
         return "retry_generate"
     return "validate_output"
 
@@ -383,7 +386,7 @@ def run_migration(csv_path: str):
     global _llm_call_count
     _llm_call_count = 0
 
-    print(f"Processing: {csv_path}")
+    log.info("Processing: %s", csv_path)
     app = build_graph()
     run_id = uuid.uuid4()
 
@@ -434,7 +437,7 @@ def run_migration(csv_path: str):
 
     valid = result.get("validation_result", {}).get("valid", False)
     status = "OK" if valid else "FAIL"
-    print(f"  [{status}] Saved: {output_path} (LLM calls: {_llm_call_count})")
+    log.info("[%s] Saved: %s (LLM calls: %d)", status, output_path, _llm_call_count)
 
     return result
 
@@ -443,17 +446,15 @@ def run_all(test_dir: str = "data/test"):
     csv_files = sorted(f for f in os.listdir(test_dir) if f.endswith(".csv"))
 
     rules = load_rules()
-    print(f"Running improved agent on {len(csv_files)} CSVs from {test_dir}/")
-    print(f"Rules loaded: {len(rules)}  |  Max retries: {MAX_RETRIES}  |  LLM budget: {MAX_LLM_CALLS_PER_RUN}")
-    print(f"LangSmith tracing ON  →  project: self-improving-agent")
-    print()
+    log.info("Running improved agent on %d CSVs | rules=%d retries=%d budget=%d",
+             len(csv_files), len(rules), MAX_RETRIES, MAX_LLM_CALLS_PER_RUN)
 
     for csv_file in csv_files:
         csv_path = os.path.join(test_dir, csv_file)
         try:
             run_migration(csv_path)
         except Exception as e:
-            print(f"  [ERROR] {csv_file}: {e}")
+            log.error("Failed on %s: %s", csv_file, e)
             os.makedirs(AGENT_OUTPUT_DIR, exist_ok=True)
             base_name = os.path.splitext(csv_file)[0]
             output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
@@ -467,7 +468,7 @@ def run_all(test_dir: str = "data/test"):
                     "llm_call_count": _llm_call_count,
                 }, f, indent=2)
 
-    print(f"\nDone. Results saved to {AGENT_OUTPUT_DIR}/")
+    log.info("Done. Results saved to %s/", AGENT_OUTPUT_DIR)
 
 
 def run_improve(test_dir: str = "data/test"):
@@ -483,28 +484,16 @@ def run_improve(test_dir: str = "data/test"):
 
     rules_before = len(load_rules())
 
-    # Step 1: Run agent
-    print("\n" + "=" * 60)
-    print("STEP 1: Running agent on all CSVs")
-    print("=" * 60)
+    log.info("STEP 1: Running agent on all CSVs")
     run_all(test_dir=test_dir)
 
-    # Step 2: Evaluate
-    print("\n" + "=" * 60)
-    print("STEP 2: Evaluating")
-    print("=" * 60)
+    log.info("STEP 2: Evaluating")
     run_evaluation(agent_output_dir=AGENT_OUTPUT_DIR)
 
-    # Step 3: Analyze + generate rules
-    print("\n" + "=" * 60)
-    print("STEP 3: Analyzing traces → generating rules")
-    print("=" * 60)
+    log.info("STEP 3: Analyzing traces")
     run_analysis(min_failures=1, agent_output_dir=AGENT_OUTPUT_DIR)
 
-    # Step 4: Validate rules
-    print("\n" + "=" * 60)
-    print("STEP 4: Validating rules")
-    print("=" * 60)
+    log.info("STEP 4: Validating rules")
     kept = validate_rules()
 
     # Summary
@@ -514,14 +503,13 @@ def run_improve(test_dir: str = "data/test"):
     )
     rules_after = len(load_rules())
 
-    print("\n" + "=" * 60)
-    print("IMPROVEMENT CYCLE COMPLETE")
-    print("=" * 60)
-    print(f"  Composite: {composite_before:.2%} → {composite_after:.2%} ({composite_after - composite_before:+.2%})")
-    print(f"  Rules: {rules_before} → {rules_after} ({'kept' if kept else 'discarded new rules'})")
+    log.info("COMPLETE: composite %.2f%% → %.2f%% | rules %d → %d (%s)",
+             composite_before * 100, composite_after * 100,
+             rules_before, rules_after, 'kept' if kept else 'discarded')
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     if len(sys.argv) > 1:
         if sys.argv[1] == "--improve":
             run_improve()

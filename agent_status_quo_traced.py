@@ -10,12 +10,15 @@ Usage:
 """
 
 import json
+import logging
 import os
 import sys
 import uuid
 import pandas as pd
 from dotenv import load_dotenv
 from typing import TypedDict
+
+log = logging.getLogger(__name__)
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -240,7 +243,7 @@ def build_graph():
 # ---------------------------------------------------------------------------
 def run_migration(csv_path: str):
     """Run the baseline agent on a single CSV with LangSmith tracing."""
-    print(f"Processing: {csv_path}")
+    log.info("Processing: %s", csv_path)
 
     app = build_graph()
     run_id = uuid.uuid4()
@@ -287,8 +290,7 @@ def run_migration(csv_path: str):
 
     valid = result.get("validation_result", {}).get("valid", False)
     status = "OK" if valid else "FAIL"
-    print(f"  [{status}] Saved: {output_path}")
-    print(f"  [trace] https://smith.langchain.com  →  project: status-quo-baseline")
+    log.info("[%s] Saved: %s", status, output_path)
 
     return result
 
@@ -296,17 +298,14 @@ def run_migration(csv_path: str):
 def run_all(test_dir: str = "data/test"):
     """Run the baseline agent on all test CSVs with LangSmith tracing."""
     csv_files = sorted(f for f in os.listdir(test_dir) if f.endswith(".csv"))
-    print(f"Running baseline agent on {len(csv_files)} CSVs from {test_dir}/")
-    print(f"No rules. No retries. LangSmith tracing ON.")
-    print(f"Traces visible at: https://smith.langchain.com  →  project: status-quo-baseline")
-    print()
+    log.info("Running traced baseline on %d CSVs (LangSmith: status-quo-baseline)", len(csv_files))
 
     for csv_file in csv_files:
         csv_path = os.path.join(test_dir, csv_file)
         try:
             run_migration(csv_path)
         except Exception as e:
-            print(f"  [ERROR] {csv_file}: {e}")
+            log.error("Failed on %s: %s", csv_file, e)
             os.makedirs(AGENT_OUTPUT_DIR, exist_ok=True)
             base_name = os.path.splitext(csv_file)[0]
             output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
@@ -324,11 +323,11 @@ def run_all(test_dir: str = "data/test"):
                     "run_id": "",
                 }, f, indent=2)
 
-    print(f"\nDone. Results saved to {AGENT_OUTPUT_DIR}/")
-    print(f"Check traces: https://smith.langchain.com  →  project: status-quo-baseline")
+    log.info("Done. Results saved to %s/", AGENT_OUTPUT_DIR)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     if len(sys.argv) > 1:
         run_migration(sys.argv[1])
     else:
