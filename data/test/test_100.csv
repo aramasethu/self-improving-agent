@@ -1,0 +1,7 @@
+employee_name,work_email,department,start_date,annual_pay,manager,status,location
+Diana Rivera,drivera@globex.de,Marketing,2024-12-04,"$199,000",Jane Doe,Active,HQ
+Lena Taylor,ltaylor@acme.com,Engineering,2020-02-07,189K,Alex Kim,Active,HQ
+Tariq Chen,tchen@globex.de,DevOps,2022-07-08,131k,Tom Brown,Active,HQ
+Robert Taylor,rtaylor@initech.co.uk,HR,2025-03-07,$146k,Jane Doe,Active,HQ
+Jessica Schmidt,jschmidt@acme.com,R&D,2021-06-20,"5,916.67/mo",Eva Green,Active,HQ
+Wei Johansson,wjohansson@datapipe.eu,Sales,2025-09-10,"€152,000",Alex Kim,Active,HQ
