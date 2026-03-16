@@ -38,14 +38,14 @@ llm = ChatAnthropic(model="claude-haiku-4-5-20251001", temperature=0, max_tokens
 # ---------------------------------------------------------------------------
 # Step 1: Collect failure data from agent outputs + LangSmith feedback
 # ---------------------------------------------------------------------------
-def collect_failures() -> list[dict]:
+def collect_failures(agent_output_dir: str = AGENT_OUTPUT_DIR) -> list[dict]:
     """Gather all execution failures from agent outputs."""
     failures = []
 
-    for fname in sorted(os.listdir(AGENT_OUTPUT_DIR)):
+    for fname in sorted(os.listdir(agent_output_dir)):
         if not fname.endswith(".json"):
             continue
-        with open(os.path.join(AGENT_OUTPUT_DIR, fname)) as f:
+        with open(os.path.join(agent_output_dir, fname)) as f:
             data = json.load(f)
 
         if not data.get("error"):
@@ -244,13 +244,13 @@ def validate_rules() -> bool:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-def run_analysis(min_failures: int = 2):
+def run_analysis(min_failures: int = 2, agent_output_dir: str = AGENT_OUTPUT_DIR):
     print(f"{'='*60}")
     print("Self-Improvement: Trace Analysis")
     print(f"{'='*60}")
 
     # Step 1: Collect failures
-    failures = collect_failures()
+    failures = collect_failures(agent_output_dir=agent_output_dir)
     print(f"\nTotal execution failures: {len(failures)}")
 
     if not failures:
