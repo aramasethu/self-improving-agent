@@ -1,0 +1,3827 @@
+[
+  {
+    "csv_file": "test_000.csv",
+    "column_mapping": {
+      "personnel": "full_name",
+      "corporate_email": "email",
+      "dept": "department",
+      "start": "start_date",
+      "SALARY": "salary_usd",
+      "string_field_3": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "plain",
+    "num_rows": 7,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "status"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_001.csv",
+    "column_mapping": {
+      "First Name": "full_name__first",
+      "Last Name": "full_name__last",
+      "notification_target": "email",
+      "col_3": "department",
+      "commenced": "start_date",
+      "base_salary": "salary_usd",
+      "line_manager": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "commas",
+    "num_rows": 7,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "nationality",
+      "title",
+      "phone"
+    ],
+    "error_types": [],
+    "challenges": [
+      "split_first_last_name",
+      "opaque_column_names",
+      "commas_in_salary",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_002.csv",
+    "column_mapping": {
+      "nombre": "full_name",
+      "EMAIL": "email",
+      "dept_name": "department",
+      "DOJ": "start_date",
+      "annual_sal": "salary_usd",
+      "boss": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar",
+    "num_rows": 3,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "status",
+      "badge_number",
+      "bonus",
+      "end_date",
+      "previous_manager"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "all_caps_headers",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_003.csv",
+    "column_mapping": {
+      "fname": "full_name__first",
+      "lname": "full_name__last",
+      "work_email": "email",
+      "group": "department",
+      "startDate": "start_date",
+      "wage": "salary_usd",
+      "reporting_manager": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "usd_prefix",
+    "num_rows": 7,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "gender",
+      "location"
+    ],
+    "error_types": [
+      "missing_manager",
+      "messy_salary"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns",
+      "missing_manager",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_004.csv",
+    "column_mapping": {
+      "fullname": "full_name",
+      "data_2": "email",
+      "org_unit": "department",
+      "dt_1": "start_date",
+      "annual_salary": "salary_usd",
+      "col_6": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "k_notation",
+    "num_rows": 7,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "office_floor",
+      "badge_number",
+      "previous_manager",
+      "nickname",
+      "personal_email"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_005.csv",
+    "column_mapping": {
+      "person_name": "full_name",
+      "Email Address": "email",
+      "abteilung": "department",
+      "join_date": "start_date",
+      "salary": "salary_usd",
+      "responsable": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "k_lower",
+    "num_rows": 6,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "employee_id",
+      "status",
+      "title",
+      "phone",
+      "personal_email",
+      "previous_department",
+      "budget_code"
+    ],
+    "error_types": [
+      "missing_manager"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_006.csv",
+    "column_mapping": {
+      "field_a": "full_name",
+      "col_2": "email",
+      "vertical": "department",
+      "start_date": "start_date",
+      "TC": "salary_usd",
+      "Reports To": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "decimal",
+    "num_rows": 3,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "office_floor"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "written_date_format",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_007.csv",
+    "column_mapping": {
+      "display_name": "full_name",
+      "field_b": "email",
+      "equipo": "department",
+      "hire_dt": "start_date",
+      "num_1": "salary_usd",
+      "field_f": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar_nodec",
+    "num_rows": 4,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "office_floor",
+      "status",
+      "bonus",
+      "budget_code",
+      "project_name"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_008.csv",
+    "column_mapping": {
+      "resource": "full_name",
+      "courriel": "email",
+      "cost_center": "department",
+      "entry_date": "start_date",
+      "sueldo": "salary_usd",
+      "N+1": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "space_sep",
+    "num_rows": 4,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "employee_id",
+      "location",
+      "status",
+      "title"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_009.csv",
+    "column_mapping": {
+      "col_1": "full_name",
+      "mail": "email",
+      "functional_area": "department",
+      "hire_date": "start_date",
+      "band": "salary_usd",
+      "manager": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "monthly",
+    "num_rows": 4,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "title",
+      "badge_number",
+      "employee_id",
+      "status",
+      "nationality"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "monthly_salary_not_annual",
+      "timestamp_date",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_010.csv",
+    "column_mapping": {
+      "employee_name": "full_name",
+      "addr": "email",
+      "work_group": "department",
+      "since": "start_date",
+      "amount": "salary_usd",
+      "MGR": "manager_name"
+    },
+    "date_format": "dot_eu",
+    "salary_format": "plain",
+    "num_rows": 3,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "location",
+      "gender",
+      "nationality",
+      "title",
+      "blood_type",
+      "nickname",
+      "end_date"
+    ],
+    "error_types": [],
+    "challenges": [
+      "semantic_trap_columns",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_011.csv",
+    "column_mapping": {
+      "full_name": "full_name",
+      "contact": "email",
+      "team": "department",
+      "HIRE_DATE": "start_date",
+      "field_e": "salary_usd",
+      "mgr": "manager_name"
+    },
+    "date_format": "year_first",
+    "salary_format": "commas",
+    "num_rows": 8,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "blood_type",
+      "badge_number",
+      "project_name",
+      "previous_manager"
+    ],
+    "error_types": [],
+    "challenges": [
+      "whitespace_in_header",
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "commas_in_salary",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_012.csv",
+    "column_mapping": {
+      "data_1": "full_name",
+      "email": "email",
+      "stream": "department",
+      "date_joined": "start_date",
+      "remuneration": "salary_usd",
+      "superior": "manager_name"
+    },
+    "date_format": "compact",
+    "salary_format": "dollar",
+    "num_rows": 4,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "location",
+      "blood_type",
+      "nationality"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "compact_date_YYYYMMDD",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_013.csv",
+    "column_mapping": {
+      "staff_name": "full_name",
+      "kontakt": "email",
+      "division": "department",
+      "timestamp_1": "start_date",
+      "compensation": "salary_usd",
+      "ref_person": "manager_name"
+    },
+    "date_format": "written_day",
+    "salary_format": "usd_prefix",
+    "num_rows": 7,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "title"
+    ],
+    "error_types": [],
+    "challenges": [
+      "multilingual_headers",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_014.csv",
+    "column_mapping": {
+      "emp_full_name": "full_name",
+      "electronic_mail": "email",
+      "Department Name": "department",
+      "col_4": "start_date",
+      "Salary": "salary_usd",
+      "direct_manager": "manager_name"
+    },
+    "date_format": "month_name",
+    "salary_format": "k_notation",
+    "num_rows": 3,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "office_floor",
+      "phone"
+    ],
+    "error_types": [
+      "missing_manager"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_015.csv",
+    "column_mapping": {
+      "name": "full_name",
+      "e-mail": "email",
+      "department": "department",
+      "fecha_inicio": "start_date",
+      "total_comp": "salary_usd",
+      "mgr_name": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "k_lower",
+    "num_rows": 8,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "employee_id",
+      "blood_type",
+      "office_floor",
+      "status",
+      "bonus"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_016.csv",
+    "column_mapping": {
+      "string_field_1": "full_name",
+      "contact_email": "email",
+      "pod": "department",
+      "onboard_date": "start_date",
+      "Compensation (USD)": "salary_usd",
+      "escalation": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "decimal",
+    "num_rows": 6,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "employee_id",
+      "office_floor",
+      "badge_number",
+      "location",
+      "phone"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_017.csv",
+    "column_mapping": {
+      "EmployeeName": "full_name",
+      "string_field_2": "email",
+      "business_unit": "department",
+      "field_d": "start_date",
+      "gross_salary": "salary_usd",
+      "managed_by": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar_nodec",
+    "num_rows": 3,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "office_floor",
+      "phone",
+      "nationality",
+      "bonus",
+      "nickname"
+    ],
+    "error_types": [
+      "missing_email",
+      "inconsistent_date_short_year"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_email",
+      "inconsistent_date_short_year"
+    ]
+  },
+  {
+    "csv_file": "test_018.csv",
+    "column_mapping": {
+      "nom_complet": "full_name",
+      "emp_email": "email",
+      "section": "department",
+      "joining_date": "start_date",
+      "ctc": "salary_usd",
+      "Manager": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "space_sep",
+    "num_rows": 7,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "phone",
+      "office_floor",
+      "employee_id",
+      "status",
+      "gender",
+      "bonus",
+      "emergency_contact"
+    ],
+    "error_types": [],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_019.csv",
+    "column_mapping": {
+      "associate_name": "full_name",
+      "primary_email": "email",
+      "area": "department",
+      "Start Date": "start_date",
+      "Annual Pay": "salary_usd",
+      "team_lead": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "monthly",
+    "num_rows": 7,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "status",
+      "budget_code"
+    ],
+    "error_types": [
+      "missing_name",
+      "missing_email"
+    ],
+    "challenges": [
+      "semantic_trap_columns",
+      "monthly_salary_not_annual",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_name",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_020.csv",
+    "column_mapping": {
+      "Name of Employee": "full_name",
+      "emailAddress": "email",
+      "DEPT": "department",
+      "datum": "start_date",
+      "figure": "salary_usd",
+      "reports_to": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "plain",
+    "num_rows": 3,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "status",
+      "location",
+      "title",
+      "phone",
+      "previous_manager"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "spaces_in_headers",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_021.csv",
+    "column_mapping": {
+      "emp_name": "full_name",
+      "email_addr": "email",
+      "practice": "department",
+      "date_of_joining": "start_date",
+      "yearly_pay": "salary_usd",
+      "jefe": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "commas",
+    "num_rows": 7,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "location",
+      "phone",
+      "nationality",
+      "gender",
+      "badge_number"
+    ],
+    "error_types": [
+      "missing_manager",
+      "messy_salary"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "commas_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_manager",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_022.csv",
+    "column_mapping": {
+      "Full Name": "full_name",
+      "email_id": "email",
+      "Department": "department",
+      "effective": "start_date",
+      "col_5": "salary_usd",
+      "supervisor": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar",
+    "num_rows": 3,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "blood_type",
+      "office_floor"
+    ],
+    "error_types": [],
+    "challenges": [
+      "spaces_in_headers",
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_023.csv",
+    "column_mapping": {
+      "nombre_pila": "full_name__first",
+      "apellido": "full_name__last",
+      "correo": "email",
+      "unit": "department",
+      "employment_start": "start_date",
+      "pay": "salary_usd",
+      "manager_name": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "usd_prefix",
+    "num_rows": 3,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "gender",
+      "employee_id",
+      "office_floor",
+      "blood_type",
+      "title",
+      "last_review_date",
+      "previous_department"
+    ],
+    "error_types": [],
+    "challenges": [
+      "split_first_last_name",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_024.csv",
+    "column_mapping": {
+      "fname": "full_name__first",
+      "lname": "full_name__last",
+      "corporate_email": "email",
+      "dept": "department",
+      "start": "start_date",
+      "SALARY": "salary_usd",
+      "string_field_3": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "k_notation",
+    "num_rows": 3,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "office_floor",
+      "blood_type",
+      "gender",
+      "badge_number",
+      "budget_code",
+      "emergency_contact",
+      "project_name"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "timestamp_date",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_025.csv",
+    "column_mapping": {
+      "worker_name": "full_name",
+      "notification_target": "email",
+      "col_3": "department",
+      "commenced": "start_date",
+      "base_salary": "salary_usd",
+      "line_manager": "manager_name"
+    },
+    "date_format": "dot_eu",
+    "salary_format": "k_lower",
+    "num_rows": 7,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "gender",
+      "title"
+    ],
+    "error_types": [
+      "missing_email",
+      "missing_manager"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_email",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_026.csv",
+    "column_mapping": {
+      "nombre": "full_name",
+      "EMAIL": "email",
+      "dept_name": "department",
+      "DOJ": "start_date",
+      "annual_sal": "salary_usd",
+      "boss": "manager_name"
+    },
+    "date_format": "year_first",
+    "salary_format": "decimal",
+    "num_rows": 4,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "nationality",
+      "title",
+      "status",
+      "phone",
+      "personal_email"
+    ],
+    "error_types": [],
+    "challenges": [
+      "all_caps_headers",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_027.csv",
+    "column_mapping": {
+      "txt_primary": "full_name",
+      "work_email": "email",
+      "group": "department",
+      "startDate": "start_date",
+      "wage": "salary_usd",
+      "reporting_manager": "manager_name"
+    },
+    "date_format": "compact",
+    "salary_format": "dollar_nodec",
+    "num_rows": 4,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "employee_id",
+      "status",
+      "office_floor"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "compact_date_YYYYMMDD",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_028.csv",
+    "column_mapping": {
+      "fullname": "full_name",
+      "data_2": "email",
+      "org_unit": "department",
+      "dt_1": "start_date",
+      "annual_salary": "salary_usd",
+      "col_6": "manager_name"
+    },
+    "date_format": "written_day",
+    "salary_format": "space_sep",
+    "num_rows": 3,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "blood_type",
+      "employee_id",
+      "personal_email",
+      "budget_code"
+    ],
+    "error_types": [
+      "messy_salary"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "written_date_format",
+      "extra_distractor_columns",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_029.csv",
+    "column_mapping": {
+      "person_name": "full_name",
+      "Email Address": "email",
+      "abteilung": "department",
+      "join_date": "start_date",
+      "salary": "salary_usd",
+      "responsable": "manager_name"
+    },
+    "date_format": "month_name",
+    "salary_format": "monthly",
+    "num_rows": 6,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "title"
+    ],
+    "error_types": [
+      "missing_email",
+      "messy_salary",
+      "special_chars_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "monthly_salary_not_annual",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_email",
+      "messy_salary",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_030.csv",
+    "column_mapping": {
+      "field_a": "full_name",
+      "col_2": "email",
+      "vertical": "department",
+      "start_date": "start_date",
+      "TC": "salary_usd",
+      "Reports To": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "plain",
+    "num_rows": 7,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "status",
+      "nickname",
+      "project_name",
+      "personal_email"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_031.csv",
+    "column_mapping": {
+      "vorname": "full_name__first",
+      "nachname": "full_name__last",
+      "field_b": "email",
+      "equipo": "department",
+      "hire_dt": "start_date",
+      "num_1": "salary_usd",
+      "field_f": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "commas",
+    "num_rows": 7,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "location"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "opaque_column_names",
+      "multilingual_headers",
+      "commas_in_salary",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_032.csv",
+    "column_mapping": {
+      "resource": "full_name",
+      "courriel": "email",
+      "cost_center": "department",
+      "entry_date": "start_date",
+      "sueldo": "salary_usd",
+      "N+1": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar",
+    "num_rows": 3,
+    "num_extra_columns": 8,
+    "extra_columns": [
+      "badge_number",
+      "gender",
+      "office_floor",
+      "title",
+      "nationality",
+      "personal_email",
+      "budget_code",
+      "previous_manager"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_033.csv",
+    "column_mapping": {
+      "col_1": "full_name",
+      "mail": "email",
+      "functional_area": "department",
+      "hire_date": "start_date",
+      "band": "salary_usd",
+      "manager": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "usd_prefix",
+    "num_rows": 5,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "blood_type",
+      "gender",
+      "previous_department",
+      "nickname"
+    ],
+    "error_types": [
+      "missing_manager"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_034.csv",
+    "column_mapping": {
+      "employee_name": "full_name",
+      "addr": "email",
+      "work_group": "department",
+      "since": "start_date",
+      "amount": "salary_usd",
+      "MGR": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "k_notation",
+    "num_rows": 3,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "badge_number",
+      "blood_type",
+      "end_date",
+      "emergency_contact",
+      "budget_code"
+    ],
+    "error_types": [],
+    "challenges": [
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_035.csv",
+    "column_mapping": {
+      "full_name": "full_name",
+      "contact": "email",
+      "team": "department",
+      "HIRE_DATE": "start_date",
+      "field_e": "salary_usd",
+      "mgr": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "k_lower",
+    "num_rows": 8,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "location"
+    ],
+    "error_types": [],
+    "challenges": [
+      "whitespace_in_header",
+      "opaque_column_names",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_036.csv",
+    "column_mapping": {
+      "data_1": "full_name",
+      "email": "email",
+      "stream": "department",
+      "date_joined": "start_date",
+      "remuneration": "salary_usd",
+      "superior": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "decimal",
+    "num_rows": 4,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "gender",
+      "phone"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_037.csv",
+    "column_mapping": {
+      "staff_name": "full_name",
+      "kontakt": "email",
+      "division": "department",
+      "timestamp_1": "start_date",
+      "compensation": "salary_usd",
+      "ref_person": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar_nodec",
+    "num_rows": 4,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "nationality",
+      "end_date"
+    ],
+    "error_types": [
+      "missing_manager"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_038.csv",
+    "column_mapping": {
+      "emp_full_name": "full_name",
+      "electronic_mail": "email",
+      "Department Name": "department",
+      "col_4": "start_date",
+      "Salary": "salary_usd",
+      "direct_manager": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "space_sep",
+    "num_rows": 8,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "nationality",
+      "office_floor",
+      "location",
+      "badge_number"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_039.csv",
+    "column_mapping": {
+      "name": "full_name",
+      "e-mail": "email",
+      "department": "department",
+      "fecha_inicio": "start_date",
+      "total_comp": "salary_usd",
+      "mgr_name": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "monthly",
+    "num_rows": 8,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "phone"
+    ],
+    "error_types": [
+      "missing_email",
+      "missing_manager"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "monthly_salary_not_annual",
+      "timestamp_date",
+      "extra_distractor_columns",
+      "missing_email",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_040.csv",
+    "column_mapping": {
+      "string_field_1": "full_name",
+      "contact_email": "email",
+      "pod": "department",
+      "onboard_date": "start_date",
+      "Compensation (USD)": "salary_usd",
+      "escalation": "manager_name"
+    },
+    "date_format": "dot_eu",
+    "salary_format": "plain",
+    "num_rows": 8,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "phone",
+      "office_floor",
+      "blood_type"
+    ],
+    "error_types": [
+      "inconsistent_date_year_first",
+      "messy_salary"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "inconsistent_date_year_first",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_041.csv",
+    "column_mapping": {
+      "EmployeeName": "full_name",
+      "string_field_2": "email",
+      "business_unit": "department",
+      "field_d": "start_date",
+      "gross_salary": "salary_usd",
+      "managed_by": "manager_name"
+    },
+    "date_format": "year_first",
+    "salary_format": "commas",
+    "num_rows": 7,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "employee_id",
+      "blood_type",
+      "phone",
+      "office_floor"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "commas_in_salary",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_042.csv",
+    "column_mapping": {
+      "nom_complet": "full_name",
+      "emp_email": "email",
+      "section": "department",
+      "joining_date": "start_date",
+      "ctc": "salary_usd",
+      "Manager": "manager_name"
+    },
+    "date_format": "compact",
+    "salary_format": "dollar",
+    "num_rows": 3,
+    "num_extra_columns": 6,
+    "extra_columns": [
+      "phone",
+      "location",
+      "title",
+      "office_floor",
+      "budget_code",
+      "end_date"
+    ],
+    "error_types": [],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "compact_date_YYYYMMDD",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_043.csv",
+    "column_mapping": {
+      "associate_name": "full_name",
+      "primary_email": "email",
+      "area": "department",
+      "Start Date": "start_date",
+      "Annual Pay": "salary_usd",
+      "team_lead": "manager_name"
+    },
+    "date_format": "written_day",
+    "salary_format": "usd_prefix",
+    "num_rows": 7,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "location",
+      "employee_id",
+      "blood_type",
+      "gender"
+    ],
+    "error_types": [],
+    "challenges": [
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_044.csv",
+    "column_mapping": {
+      "Name of Employee": "full_name",
+      "emailAddress": "email",
+      "DEPT": "department",
+      "datum": "start_date",
+      "figure": "salary_usd",
+      "reports_to": "manager_name"
+    },
+    "date_format": "month_name",
+    "salary_format": "k_notation",
+    "num_rows": 5,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "phone",
+      "nationality",
+      "bonus"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "spaces_in_headers",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_045.csv",
+    "column_mapping": {
+      "emp_name": "full_name",
+      "email_addr": "email",
+      "practice": "department",
+      "date_of_joining": "start_date",
+      "yearly_pay": "salary_usd",
+      "jefe": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "k_lower",
+    "num_rows": 6,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "status",
+      "location",
+      "personal_email",
+      "nickname",
+      "previous_manager"
+    ],
+    "error_types": [
+      "inconsistent_date_eu_dash"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "extra_distractor_columns",
+      "inconsistent_date_eu_dash"
+    ]
+  },
+  {
+    "csv_file": "test_046.csv",
+    "column_mapping": {
+      "Full Name": "full_name",
+      "email_id": "email",
+      "Department": "department",
+      "effective": "start_date",
+      "col_5": "salary_usd",
+      "supervisor": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "decimal",
+    "num_rows": 5,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "phone",
+      "status"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "spaces_in_headers",
+      "opaque_column_names",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_047.csv",
+    "column_mapping": {
+      "bezeichnung": "full_name",
+      "correo": "email",
+      "unit": "department",
+      "employment_start": "start_date",
+      "pay": "salary_usd",
+      "manager_name": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar_nodec",
+    "num_rows": 6,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "badge_number",
+      "gender",
+      "location"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_048.csv",
+    "column_mapping": {
+      "personnel": "full_name",
+      "corporate_email": "email",
+      "dept": "department",
+      "start": "start_date",
+      "SALARY": "salary_usd",
+      "string_field_3": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "space_sep",
+    "num_rows": 5,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "phone",
+      "office_floor",
+      "employee_id",
+      "nationality",
+      "blood_type",
+      "emergency_contact",
+      "previous_manager"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_049.csv",
+    "column_mapping": {
+      "worker_name": "full_name",
+      "notification_target": "email",
+      "col_3": "department",
+      "commenced": "start_date",
+      "base_salary": "salary_usd",
+      "line_manager": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "monthly",
+    "num_rows": 8,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "location",
+      "title",
+      "gender",
+      "office_floor"
+    ],
+    "error_types": [
+      "inconsistent_date_iso"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "monthly_salary_not_annual",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "inconsistent_date_iso"
+    ]
+  },
+  {
+    "csv_file": "test_050.csv",
+    "column_mapping": {
+      "nombre": "full_name",
+      "EMAIL": "email",
+      "dept_name": "department",
+      "DOJ": "start_date",
+      "annual_sal": "salary_usd",
+      "boss": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "plain",
+    "num_rows": 3,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "blood_type",
+      "status",
+      "employee_id",
+      "phone"
+    ],
+    "error_types": [],
+    "challenges": [
+      "all_caps_headers",
+      "multilingual_headers",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_051.csv",
+    "column_mapping": {
+      "txt_primary": "full_name",
+      "work_email": "email",
+      "group": "department",
+      "startDate": "start_date",
+      "wage": "salary_usd",
+      "reporting_manager": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "commas",
+    "num_rows": 3,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "location",
+      "blood_type",
+      "phone",
+      "status",
+      "title"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "commas_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_052.csv",
+    "column_mapping": {
+      "fullname": "full_name",
+      "data_2": "email",
+      "org_unit": "department",
+      "dt_1": "start_date",
+      "annual_salary": "salary_usd",
+      "col_6": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar",
+    "num_rows": 4,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "location"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_053.csv",
+    "column_mapping": {
+      "person_name": "full_name",
+      "Email Address": "email",
+      "abteilung": "department",
+      "join_date": "start_date",
+      "salary": "salary_usd",
+      "responsable": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "usd_prefix",
+    "num_rows": 4,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "title",
+      "status",
+      "badge_number",
+      "phone",
+      "nationality"
+    ],
+    "error_types": [
+      "messy_salary"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_054.csv",
+    "column_mapping": {
+      "field_a": "full_name",
+      "col_2": "email",
+      "vertical": "department",
+      "start_date": "start_date",
+      "TC": "salary_usd",
+      "Reports To": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "k_notation",
+    "num_rows": 7,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "gender",
+      "location",
+      "blood_type"
+    ],
+    "error_types": [
+      "messy_salary"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "k_notation_salary",
+      "timestamp_date",
+      "extra_distractor_columns",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_055.csv",
+    "column_mapping": {
+      "display_name": "full_name",
+      "field_b": "email",
+      "equipo": "department",
+      "hire_dt": "start_date",
+      "num_1": "salary_usd",
+      "field_f": "manager_name"
+    },
+    "date_format": "dot_eu",
+    "salary_format": "k_lower",
+    "num_rows": 7,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "status",
+      "gender",
+      "blood_type",
+      "location"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "multilingual_headers",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_056.csv",
+    "column_mapping": {
+      "resource": "full_name",
+      "courriel": "email",
+      "cost_center": "department",
+      "entry_date": "start_date",
+      "sueldo": "salary_usd",
+      "N+1": "manager_name"
+    },
+    "date_format": "year_first",
+    "salary_format": "decimal",
+    "num_rows": 4,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "title",
+      "badge_number",
+      "phone",
+      "nickname"
+    ],
+    "error_types": [
+      "missing_email",
+      "messy_salary"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "extra_distractor_columns",
+      "missing_email",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_057.csv",
+    "column_mapping": {
+      "col_1": "full_name",
+      "mail": "email",
+      "functional_area": "department",
+      "hire_date": "start_date",
+      "band": "salary_usd",
+      "manager": "manager_name"
+    },
+    "date_format": "compact",
+    "salary_format": "dollar_nodec",
+    "num_rows": 4,
+    "num_extra_columns": 8,
+    "extra_columns": [
+      "blood_type",
+      "badge_number",
+      "title",
+      "location",
+      "status",
+      "end_date",
+      "previous_department",
+      "previous_manager"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "compact_date_YYYYMMDD",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_058.csv",
+    "column_mapping": {
+      "employee_name": "full_name",
+      "addr": "email",
+      "work_group": "department",
+      "since": "start_date",
+      "amount": "salary_usd",
+      "MGR": "manager_name"
+    },
+    "date_format": "written_day",
+    "salary_format": "space_sep",
+    "num_rows": 4,
+    "num_extra_columns": 6,
+    "extra_columns": [
+      "nationality",
+      "blood_type",
+      "title",
+      "status",
+      "project_name",
+      "last_review_date"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "semantic_trap_columns",
+      "written_date_format",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_059.csv",
+    "column_mapping": {
+      "full_name": "full_name",
+      "contact": "email",
+      "team": "department",
+      "HIRE_DATE": "start_date",
+      "field_e": "salary_usd",
+      "mgr": "manager_name"
+    },
+    "date_format": "month_name",
+    "salary_format": "monthly",
+    "num_rows": 7,
+    "num_extra_columns": 6,
+    "extra_columns": [
+      "badge_number",
+      "office_floor",
+      "employee_id",
+      "title",
+      "last_review_date",
+      "personal_email"
+    ],
+    "error_types": [
+      "messy_salary"
+    ],
+    "challenges": [
+      "whitespace_in_header",
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "monthly_salary_not_annual",
+      "written_date_format",
+      "extra_distractor_columns",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_060.csv",
+    "column_mapping": {
+      "data_1": "full_name",
+      "email": "email",
+      "stream": "department",
+      "date_joined": "start_date",
+      "remuneration": "salary_usd",
+      "superior": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "plain",
+    "num_rows": 6,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "office_floor",
+      "blood_type",
+      "status",
+      "employee_id",
+      "nationality"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_061.csv",
+    "column_mapping": {
+      "staff_name": "full_name",
+      "kontakt": "email",
+      "division": "department",
+      "timestamp_1": "start_date",
+      "compensation": "salary_usd",
+      "ref_person": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "commas",
+    "num_rows": 7,
+    "num_extra_columns": 6,
+    "extra_columns": [
+      "nationality",
+      "phone",
+      "status",
+      "previous_department",
+      "project_name",
+      "emergency_contact"
+    ],
+    "error_types": [
+      "inconsistent_date_us_dash"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "commas_in_salary",
+      "extra_distractor_columns",
+      "inconsistent_date_us_dash"
+    ]
+  },
+  {
+    "csv_file": "test_062.csv",
+    "column_mapping": {
+      "emp_full_name": "full_name",
+      "electronic_mail": "email",
+      "Department Name": "department",
+      "col_4": "start_date",
+      "Salary": "salary_usd",
+      "direct_manager": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar",
+    "num_rows": 6,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "status",
+      "nationality",
+      "office_floor",
+      "gender"
+    ],
+    "error_types": [
+      "missing_email",
+      "messy_salary"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_email",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_063.csv",
+    "column_mapping": {
+      "name": "full_name",
+      "e-mail": "email",
+      "department": "department",
+      "fecha_inicio": "start_date",
+      "total_comp": "salary_usd",
+      "mgr_name": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "usd_prefix",
+    "num_rows": 6,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "blood_type",
+      "title",
+      "location"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_064.csv",
+    "column_mapping": {
+      "First Name": "full_name__first",
+      "Last Name": "full_name__last",
+      "contact_email": "email",
+      "pod": "department",
+      "onboard_date": "start_date",
+      "Compensation (USD)": "salary_usd",
+      "escalation": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "k_notation",
+    "num_rows": 7,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "nationality",
+      "title",
+      "location",
+      "employee_id"
+    ],
+    "error_types": [
+      "special_chars_name"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_065.csv",
+    "column_mapping": {
+      "EmployeeName": "full_name",
+      "string_field_2": "email",
+      "business_unit": "department",
+      "field_d": "start_date",
+      "gross_salary": "salary_usd",
+      "managed_by": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "k_lower",
+    "num_rows": 7,
+    "num_extra_columns": 6,
+    "extra_columns": [
+      "gender",
+      "office_floor",
+      "nationality",
+      "budget_code",
+      "emergency_contact",
+      "previous_department"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_066.csv",
+    "column_mapping": {
+      "nom_complet": "full_name",
+      "emp_email": "email",
+      "section": "department",
+      "joining_date": "start_date",
+      "ctc": "salary_usd",
+      "Manager": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "decimal",
+    "num_rows": 6,
+    "num_extra_columns": 6,
+    "extra_columns": [
+      "blood_type",
+      "title",
+      "gender",
+      "bonus",
+      "previous_manager",
+      "end_date"
+    ],
+    "error_types": [],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_067.csv",
+    "column_mapping": {
+      "associate_name": "full_name",
+      "primary_email": "email",
+      "area": "department",
+      "Start Date": "start_date",
+      "Annual Pay": "salary_usd",
+      "team_lead": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar_nodec",
+    "num_rows": 8,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "blood_type",
+      "gender",
+      "title",
+      "employee_id",
+      "location",
+      "previous_manager",
+      "personal_email"
+    ],
+    "error_types": [],
+    "challenges": [
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_068.csv",
+    "column_mapping": {
+      "Name of Employee": "full_name",
+      "emailAddress": "email",
+      "DEPT": "department",
+      "datum": "start_date",
+      "figure": "salary_usd",
+      "reports_to": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "space_sep",
+    "num_rows": 4,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "gender",
+      "phone",
+      "title",
+      "office_floor",
+      "last_review_date",
+      "previous_department",
+      "bonus"
+    ],
+    "error_types": [],
+    "challenges": [
+      "spaces_in_headers",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_069.csv",
+    "column_mapping": {
+      "emp_name": "full_name",
+      "email_addr": "email",
+      "practice": "department",
+      "date_of_joining": "start_date",
+      "yearly_pay": "salary_usd",
+      "jefe": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "monthly",
+    "num_rows": 7,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "gender",
+      "project_name",
+      "last_review_date"
+    ],
+    "error_types": [
+      "missing_email",
+      "inconsistent_date_eu_dash"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "monthly_salary_not_annual",
+      "timestamp_date",
+      "extra_distractor_columns",
+      "missing_email",
+      "inconsistent_date_eu_dash"
+    ]
+  },
+  {
+    "csv_file": "test_070.csv",
+    "column_mapping": {
+      "Full Name": "full_name",
+      "email_id": "email",
+      "Department": "department",
+      "effective": "start_date",
+      "col_5": "salary_usd",
+      "supervisor": "manager_name"
+    },
+    "date_format": "dot_eu",
+    "salary_format": "plain",
+    "num_rows": 4,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "blood_type"
+    ],
+    "error_types": [
+      "inconsistent_date_written_long"
+    ],
+    "challenges": [
+      "spaces_in_headers",
+      "opaque_column_names",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "inconsistent_date_written_long"
+    ]
+  },
+  {
+    "csv_file": "test_071.csv",
+    "column_mapping": {
+      "bezeichnung": "full_name",
+      "correo": "email",
+      "unit": "department",
+      "employment_start": "start_date",
+      "pay": "salary_usd",
+      "manager_name": "manager_name"
+    },
+    "date_format": "year_first",
+    "salary_format": "commas",
+    "num_rows": 5,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "employee_id",
+      "status",
+      "nationality",
+      "blood_type",
+      "location"
+    ],
+    "error_types": [
+      "inconsistent_date_written_eu"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "commas_in_salary",
+      "extra_distractor_columns",
+      "inconsistent_date_written_eu"
+    ]
+  },
+  {
+    "csv_file": "test_072.csv",
+    "column_mapping": {
+      "personnel": "full_name",
+      "corporate_email": "email",
+      "dept": "department",
+      "start": "start_date",
+      "SALARY": "salary_usd",
+      "string_field_3": "manager_name"
+    },
+    "date_format": "compact",
+    "salary_format": "dollar",
+    "num_rows": 7,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "nationality",
+      "badge_number",
+      "location"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "compact_date_YYYYMMDD",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_073.csv",
+    "column_mapping": {
+      "worker_name": "full_name",
+      "notification_target": "email",
+      "col_3": "department",
+      "commenced": "start_date",
+      "base_salary": "salary_usd",
+      "line_manager": "manager_name"
+    },
+    "date_format": "written_day",
+    "salary_format": "usd_prefix",
+    "num_rows": 7,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "employee_id",
+      "status",
+      "phone",
+      "blood_type",
+      "nickname"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_074.csv",
+    "column_mapping": {
+      "nombre": "full_name",
+      "EMAIL": "email",
+      "dept_name": "department",
+      "DOJ": "start_date",
+      "annual_sal": "salary_usd",
+      "boss": "manager_name"
+    },
+    "date_format": "month_name",
+    "salary_format": "k_notation",
+    "num_rows": 6,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "phone",
+      "status",
+      "badge_number",
+      "location"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "all_caps_headers",
+      "multilingual_headers",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_075.csv",
+    "column_mapping": {
+      "first": "full_name__first",
+      "last": "full_name__last",
+      "work_email": "email",
+      "group": "department",
+      "startDate": "start_date",
+      "wage": "salary_usd",
+      "reporting_manager": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "k_lower",
+    "num_rows": 7,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "gender",
+      "status"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "k_notation_salary",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_076.csv",
+    "column_mapping": {
+      "fullname": "full_name",
+      "data_2": "email",
+      "org_unit": "department",
+      "dt_1": "start_date",
+      "annual_salary": "salary_usd",
+      "col_6": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "decimal",
+    "num_rows": 3,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "status",
+      "title"
+    ],
+    "error_types": [
+      "missing_name",
+      "missing_email"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "extra_distractor_columns",
+      "missing_name",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_077.csv",
+    "column_mapping": {
+      "nombre_pila": "full_name__first",
+      "apellido": "full_name__last",
+      "Email Address": "email",
+      "abteilung": "department",
+      "join_date": "start_date",
+      "salary": "salary_usd",
+      "responsable": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar_nodec",
+    "num_rows": 6,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "blood_type",
+      "status",
+      "office_floor",
+      "phone",
+      "bonus"
+    ],
+    "error_types": [
+      "missing_name",
+      "missing_email",
+      "missing_manager"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_name",
+      "missing_email",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_078.csv",
+    "column_mapping": {
+      "field_a": "full_name",
+      "col_2": "email",
+      "vertical": "department",
+      "start_date": "start_date",
+      "TC": "salary_usd",
+      "Reports To": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "space_sep",
+    "num_rows": 7,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "location",
+      "gender",
+      "nationality",
+      "title",
+      "badge_number"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_079.csv",
+    "column_mapping": {
+      "display_name": "full_name",
+      "field_b": "email",
+      "equipo": "department",
+      "hire_dt": "start_date",
+      "num_1": "salary_usd",
+      "field_f": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "monthly",
+    "num_rows": 3,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "office_floor",
+      "employee_id",
+      "phone",
+      "nationality"
+    ],
+    "error_types": [
+      "missing_name",
+      "missing_manager",
+      "messy_salary"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "multilingual_headers",
+      "monthly_salary_not_annual",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_name",
+      "missing_manager",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_080.csv",
+    "column_mapping": {
+      "resource": "full_name",
+      "courriel": "email",
+      "cost_center": "department",
+      "entry_date": "start_date",
+      "sueldo": "salary_usd",
+      "N+1": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "plain",
+    "num_rows": 5,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "blood_type",
+      "budget_code",
+      "last_review_date",
+      "end_date"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_081.csv",
+    "column_mapping": {
+      "given_name": "full_name__first",
+      "surname": "full_name__last",
+      "mail": "email",
+      "functional_area": "department",
+      "hire_date": "start_date",
+      "band": "salary_usd",
+      "manager": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "commas",
+    "num_rows": 5,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "nationality"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "commas_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_082.csv",
+    "column_mapping": {
+      "first": "full_name__first",
+      "last": "full_name__last",
+      "addr": "email",
+      "work_group": "department",
+      "since": "start_date",
+      "amount": "salary_usd",
+      "MGR": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar",
+    "num_rows": 4,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "phone",
+      "nationality",
+      "location"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_083.csv",
+    "column_mapping": {
+      "full_name": "full_name",
+      "contact": "email",
+      "team": "department",
+      "HIRE_DATE": "start_date",
+      "field_e": "salary_usd",
+      "mgr": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "usd_prefix",
+    "num_rows": 4,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "nationality",
+      "office_floor",
+      "employee_id",
+      "personal_email",
+      "nickname"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "whitespace_in_header",
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_084.csv",
+    "column_mapping": {
+      "nombre_pila": "full_name__first",
+      "apellido": "full_name__last",
+      "email": "email",
+      "stream": "department",
+      "date_joined": "start_date",
+      "remuneration": "salary_usd",
+      "superior": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "k_notation",
+    "num_rows": 5,
+    "num_extra_columns": 8,
+    "extra_columns": [
+      "phone",
+      "nationality",
+      "status",
+      "blood_type",
+      "employee_id",
+      "project_name",
+      "previous_manager",
+      "budget_code"
+    ],
+    "error_types": [
+      "messy_salary",
+      "special_chars_name"
+    ],
+    "challenges": [
+      "split_first_last_name",
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "timestamp_date",
+      "extra_distractor_columns",
+      "messy_salary",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_085.csv",
+    "column_mapping": {
+      "staff_name": "full_name",
+      "kontakt": "email",
+      "division": "department",
+      "timestamp_1": "start_date",
+      "compensation": "salary_usd",
+      "ref_person": "manager_name"
+    },
+    "date_format": "dot_eu",
+    "salary_format": "k_lower",
+    "num_rows": 4,
+    "num_extra_columns": 3,
+    "extra_columns": [
+      "badge_number",
+      "phone",
+      "nationality"
+    ],
+    "error_types": [
+      "missing_email"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_email"
+    ]
+  },
+  {
+    "csv_file": "test_086.csv",
+    "column_mapping": {
+      "emp_full_name": "full_name",
+      "electronic_mail": "email",
+      "Department Name": "department",
+      "col_4": "start_date",
+      "Salary": "salary_usd",
+      "direct_manager": "manager_name"
+    },
+    "date_format": "year_first",
+    "salary_format": "decimal",
+    "num_rows": 5,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "gender",
+      "previous_department",
+      "personal_email",
+      "nickname"
+    ],
+    "error_types": [
+      "missing_name",
+      "missing_email",
+      "special_chars_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "extra_distractor_columns",
+      "missing_name",
+      "missing_email",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_087.csv",
+    "column_mapping": {
+      "name": "full_name",
+      "e-mail": "email",
+      "department": "department",
+      "fecha_inicio": "start_date",
+      "total_comp": "salary_usd",
+      "mgr_name": "manager_name"
+    },
+    "date_format": "compact",
+    "salary_format": "dollar_nodec",
+    "num_rows": 7,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "employee_id"
+    ],
+    "error_types": [
+      "missing_email",
+      "missing_manager"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "currency_symbols_in_salary",
+      "compact_date_YYYYMMDD",
+      "extra_distractor_columns",
+      "missing_email",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_088.csv",
+    "column_mapping": {
+      "string_field_1": "full_name",
+      "contact_email": "email",
+      "pod": "department",
+      "onboard_date": "start_date",
+      "Compensation (USD)": "salary_usd",
+      "escalation": "manager_name"
+    },
+    "date_format": "written_day",
+    "salary_format": "space_sep",
+    "num_rows": 8,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "gender",
+      "badge_number",
+      "last_review_date",
+      "personal_email"
+    ],
+    "error_types": [
+      "missing_name",
+      "missing_manager"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name",
+      "missing_manager"
+    ]
+  },
+  {
+    "csv_file": "test_089.csv",
+    "column_mapping": {
+      "EmployeeName": "full_name",
+      "string_field_2": "email",
+      "business_unit": "department",
+      "field_d": "start_date",
+      "gross_salary": "salary_usd",
+      "managed_by": "manager_name"
+    },
+    "date_format": "month_name",
+    "salary_format": "monthly",
+    "num_rows": 8,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "gender",
+      "location",
+      "nickname",
+      "emergency_contact"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "monthly_salary_not_annual",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_090.csv",
+    "column_mapping": {
+      "nom_complet": "full_name",
+      "emp_email": "email",
+      "section": "department",
+      "joining_date": "start_date",
+      "ctc": "salary_usd",
+      "Manager": "manager_name"
+    },
+    "date_format": "iso",
+    "salary_format": "plain",
+    "num_rows": 7,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "nationality",
+      "gender",
+      "phone",
+      "location",
+      "office_floor"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_091.csv",
+    "column_mapping": {
+      "associate_name": "full_name",
+      "primary_email": "email",
+      "area": "department",
+      "Start Date": "start_date",
+      "Annual Pay": "salary_usd",
+      "team_lead": "manager_name"
+    },
+    "date_format": "us_slash",
+    "salary_format": "commas",
+    "num_rows": 8,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "office_floor"
+    ],
+    "error_types": [
+      "missing_manager",
+      "special_chars_name"
+    ],
+    "challenges": [
+      "commas_in_salary",
+      "extra_distractor_columns",
+      "missing_manager",
+      "special_chars_name"
+    ]
+  },
+  {
+    "csv_file": "test_092.csv",
+    "column_mapping": {
+      "Name of Employee": "full_name",
+      "emailAddress": "email",
+      "DEPT": "department",
+      "datum": "start_date",
+      "figure": "salary_usd",
+      "reports_to": "manager_name"
+    },
+    "date_format": "eu_slash",
+    "salary_format": "dollar",
+    "num_rows": 6,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "blood_type",
+      "badge_number"
+    ],
+    "error_types": [
+      "messy_salary"
+    ],
+    "challenges": [
+      "spaces_in_headers",
+      "multilingual_headers",
+      "currency_symbols_in_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_093.csv",
+    "column_mapping": {
+      "emp_name": "full_name",
+      "email_addr": "email",
+      "practice": "department",
+      "date_of_joining": "start_date",
+      "yearly_pay": "salary_usd",
+      "jefe": "manager_name"
+    },
+    "date_format": "us_dash",
+    "salary_format": "usd_prefix",
+    "num_rows": 8,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "blood_type",
+      "nationality",
+      "employee_id",
+      "previous_manager"
+    ],
+    "error_types": [],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "currency_symbols_in_salary",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_094.csv",
+    "column_mapping": {
+      "Full Name": "full_name",
+      "email_id": "email",
+      "Department": "department",
+      "effective": "start_date",
+      "col_5": "salary_usd",
+      "supervisor": "manager_name"
+    },
+    "date_format": "eu_dash",
+    "salary_format": "k_notation",
+    "num_rows": 5,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "location",
+      "gender",
+      "phone",
+      "title",
+      "blood_type",
+      "personal_email",
+      "previous_manager"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "spaces_in_headers",
+      "opaque_column_names",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "ambiguous_date_format_eu",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_095.csv",
+    "column_mapping": {
+      "bezeichnung": "full_name",
+      "correo": "email",
+      "unit": "department",
+      "employment_start": "start_date",
+      "pay": "salary_usd",
+      "manager_name": "manager_name"
+    },
+    "date_format": "written_long",
+    "salary_format": "k_lower",
+    "num_rows": 8,
+    "num_extra_columns": 7,
+    "extra_columns": [
+      "location",
+      "gender",
+      "employee_id",
+      "blood_type",
+      "status",
+      "emergency_contact",
+      "personal_email"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "multilingual_headers",
+      "semantic_trap_columns",
+      "k_notation_salary",
+      "written_date_format",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_096.csv",
+    "column_mapping": {
+      "personnel": "full_name",
+      "corporate_email": "email",
+      "dept": "department",
+      "start": "start_date",
+      "SALARY": "salary_usd",
+      "string_field_3": "manager_name"
+    },
+    "date_format": "written_short",
+    "salary_format": "decimal",
+    "num_rows": 6,
+    "num_extra_columns": 4,
+    "extra_columns": [
+      "phone",
+      "status",
+      "badge_number",
+      "title"
+    ],
+    "error_types": [
+      "messy_salary"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "written_date_format",
+      "extra_distractor_columns",
+      "messy_salary"
+    ]
+  },
+  {
+    "csv_file": "test_097.csv",
+    "column_mapping": {
+      "worker_name": "full_name",
+      "notification_target": "email",
+      "col_3": "department",
+      "commenced": "start_date",
+      "base_salary": "salary_usd",
+      "line_manager": "manager_name"
+    },
+    "date_format": "written_eu",
+    "salary_format": "dollar_nodec",
+    "num_rows": 6,
+    "num_extra_columns": 2,
+    "extra_columns": [
+      "gender",
+      "badge_number"
+    ],
+    "error_types": [],
+    "challenges": [
+      "opaque_column_names",
+      "currency_symbols_in_salary",
+      "written_date_format",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_098.csv",
+    "column_mapping": {
+      "prenom": "full_name__first",
+      "nom": "full_name__last",
+      "EMAIL": "email",
+      "dept_name": "department",
+      "DOJ": "start_date",
+      "annual_sal": "salary_usd",
+      "boss": "manager_name"
+    },
+    "date_format": "short_year",
+    "salary_format": "space_sep",
+    "num_rows": 5,
+    "num_extra_columns": 5,
+    "extra_columns": [
+      "office_floor",
+      "phone",
+      "location",
+      "nationality",
+      "status"
+    ],
+    "error_types": [],
+    "challenges": [
+      "split_first_last_name",
+      "multilingual_headers",
+      "extra_distractor_columns"
+    ]
+  },
+  {
+    "csv_file": "test_099.csv",
+    "column_mapping": {
+      "txt_primary": "full_name",
+      "work_email": "email",
+      "group": "department",
+      "startDate": "start_date",
+      "wage": "salary_usd",
+      "reporting_manager": "manager_name"
+    },
+    "date_format": "timestamp",
+    "salary_format": "monthly",
+    "num_rows": 7,
+    "num_extra_columns": 1,
+    "extra_columns": [
+      "office_floor"
+    ],
+    "error_types": [
+      "missing_name"
+    ],
+    "challenges": [
+      "opaque_column_names",
+      "monthly_salary_not_annual",
+      "timestamp_date",
+      "extra_distractor_columns",
+      "missing_name"
+    ]
+  },
+  {
+    "csv_file": "test_100.csv",
+    "column_mapping": {
+      "employee_name": "full_name",
+      "work_email": "email",
+      "department": "department",
+      "start_date": "start_date",
+      "annual_pay": "salary_usd",
+      "manager": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Diana Rivera",
+        "email": "drivera@globex.de",
+        "department": "Marketing",
+        "start_date": "2024-12-04",
+        "salary_usd": 199000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Lena Taylor",
+        "email": "ltaylor@acme.com",
+        "department": "Engineering",
+        "start_date": "2020-02-07",
+        "salary_usd": 189000.0,
+        "manager_name": "Alex Kim"
+      },
+      {
+        "full_name": "Tariq Chen",
+        "email": "tchen@globex.de",
+        "department": "DevOps",
+        "start_date": "2022-07-08",
+        "salary_usd": 131000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Robert Taylor",
+        "email": "rtaylor@initech.co.uk",
+        "department": "HR",
+        "start_date": "2025-03-07",
+        "salary_usd": 146000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Jessica Schmidt",
+        "email": "jschmidt@acme.com",
+        "department": "R&D",
+        "start_date": "2021-06-20",
+        "salary_usd": 71000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Wei Johansson",
+        "email": "wjohansson@datapipe.eu",
+        "department": "Sales",
+        "start_date": "2025-09-10",
+        "salary_usd": 152000.0,
+        "manager_name": "Alex Kim"
+      }
+    ],
+    "challenges": [
+      "mixed_salary_formats",
+      "extra_distractor_columns"
+    ],
+    "date_format": "YYYY-MM-DD",
+    "salary_format": "mixed_per_row"
+  },
+  {
+    "csv_file": "test_101.csv",
+    "column_mapping": {
+      "staff": "full_name",
+      "email": "email",
+      "team": "department",
+      "hire_date": "start_date",
+      "salary_info": "salary_usd",
+      "reports_to": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Yuki Rivera",
+        "email": "yrivera@initech.co.uk",
+        "department": "Sales",
+        "start_date": "2019-04-28",
+        "salary_usd": 157000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Priya Nguyen",
+        "email": "pnguyen@globex.de",
+        "department": "R&D",
+        "start_date": "2024-06-07",
+        "salary_usd": 128000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Omar Brown",
+        "email": "obrown@northwind.se",
+        "department": "Finance",
+        "start_date": "2022-03-15",
+        "salary_usd": 129000.0,
+        "manager_name": "Diana Lee"
+      },
+      {
+        "full_name": "Carlos Kowalski",
+        "email": "ckowalski@acme.com",
+        "department": "Finance",
+        "start_date": "2021-01-26",
+        "salary_usd": 162000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Jessica Anderson",
+        "email": "janderson@northwind.se",
+        "department": "R&D",
+        "start_date": "2022-04-21",
+        "salary_usd": 161000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Olga Lee",
+        "email": "olee@globex.de",
+        "department": "Finance",
+        "start_date": "2023-12-18",
+        "salary_usd": 127000.0,
+        "manager_name": "Alex Kim"
+      }
+    ],
+    "challenges": [
+      "mixed_salary_formats",
+      "extra_distractor_columns"
+    ],
+    "date_format": "YYYY-MM-DD",
+    "salary_format": "mixed_per_row"
+  },
+  {
+    "csv_file": "test_102.csv",
+    "column_mapping": {
+      "name": "full_name",
+      "contact": "email",
+      "division": "department",
+      "joined": "start_date",
+      "comp_package": "salary_usd",
+      "lead": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Kenji Rivera",
+        "email": "krivera@globex.de",
+        "department": "DevOps",
+        "start_date": "2025-08-03",
+        "salary_usd": 72000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Olga Brown",
+        "email": "obrown@datapipe.eu",
+        "department": "QA",
+        "start_date": "2022-02-13",
+        "salary_usd": 179000.0,
+        "manager_name": "Diana Lee"
+      },
+      {
+        "full_name": "Diana Chen",
+        "email": "dchen@acme.com",
+        "department": "Sales",
+        "start_date": "2025-11-18",
+        "salary_usd": 128000.0,
+        "manager_name": "Bob Wilson"
+      },
+      {
+        "full_name": "Ahmed Wilson",
+        "email": "awilson@datapipe.eu",
+        "department": "Marketing",
+        "start_date": "2024-08-01",
+        "salary_usd": 127000.0,
+        "manager_name": "Diana Lee"
+      },
+      {
+        "full_name": "Robert Petrov",
+        "email": "rpetrov@acme.com",
+        "department": "HR",
+        "start_date": "2023-11-17",
+        "salary_usd": 110000.0,
+        "manager_name": "Michael Scott"
+      },
+      {
+        "full_name": "Kenji Brown",
+        "email": "kbrown@northwind.se",
+        "department": "DevOps",
+        "start_date": "2021-01-20",
+        "salary_usd": 185000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Ahmed Nguyen",
+        "email": "anguyen@initech.co.uk",
+        "department": "Finance",
+        "start_date": "2023-01-08",
+        "salary_usd": 80000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Miguel Kim",
+        "email": "mkim@northwind.se",
+        "department": "Marketing",
+        "start_date": "2022-03-22",
+        "salary_usd": 200000.0,
+        "manager_name": "Michael Scott"
+      },
+      {
+        "full_name": "Diana Petrov",
+        "email": "dpetrov@northwind.se",
+        "department": "Product",
+        "start_date": "2025-04-18",
+        "salary_usd": 111000.0,
+        "manager_name": "Pam Beesly"
+      }
+    ],
+    "challenges": [
+      "mixed_salary_formats",
+      "extra_distractor_columns"
+    ],
+    "date_format": "YYYY-MM-DD",
+    "salary_format": "mixed_per_row"
+  },
+  {
+    "csv_file": "test_103.csv",
+    "column_mapping": {
+      "full_name": "full_name",
+      "email_addr": "email",
+      "org_unit": "department",
+      "onboard_date": "start_date",
+      "total_comp": "salary_usd",
+      "supervisor": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Priya Petrov",
+        "email": "ppetrov@datapipe.eu",
+        "department": "Sales",
+        "start_date": "2019-04-08",
+        "salary_usd": 146000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Lena Chen",
+        "email": "lchen@globex.de",
+        "department": "QA",
+        "start_date": "2019-04-01",
+        "salary_usd": 75000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Jessica Singh",
+        "email": "jsingh@initech.co.uk",
+        "department": "Sales",
+        "start_date": "2021-09-08",
+        "salary_usd": 184000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Wei Garcia",
+        "email": "wgarcia@northwind.se",
+        "department": "QA",
+        "start_date": "2025-08-08",
+        "salary_usd": 181000.0,
+        "manager_name": "Carlos Rivera"
+      },
+      {
+        "full_name": "Ingrid Johansson",
+        "email": "ijohansson@acme.com",
+        "department": "Product",
+        "start_date": "2022-06-14",
+        "salary_usd": 179000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Ahmed Singh",
+        "email": "asingh@datapipe.eu",
+        "department": "R&D",
+        "start_date": "2020-02-08",
+        "salary_usd": 108000.0,
+        "manager_name": "Diana Lee"
+      },
+      {
+        "full_name": "Priya Garcia",
+        "email": "pgarcia@datapipe.eu",
+        "department": "Marketing",
+        "start_date": "2020-05-15",
+        "salary_usd": 79000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Wei Johansson",
+        "email": "wjohansson@acme.com",
+        "department": "DevOps",
+        "start_date": "2025-01-03",
+        "salary_usd": 120000.0,
+        "manager_name": "Michael Scott"
+      }
+    ],
+    "challenges": [
+      "mixed_salary_formats",
+      "extra_distractor_columns"
+    ],
+    "date_format": "YYYY-MM-DD",
+    "salary_format": "mixed_per_row"
+  },
+  {
+    "csv_file": "test_104.csv",
+    "column_mapping": {
+      "worker": "full_name",
+      "mail": "email",
+      "area": "department",
+      "commenced": "start_date",
+      "remuneration": "salary_usd",
+      "boss": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Miguel Anderson",
+        "email": "manderson@datapipe.eu",
+        "department": "Engineering",
+        "start_date": "2019-03-13",
+        "salary_usd": 159000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Priya Wilson",
+        "email": "pwilson@datapipe.eu",
+        "department": "DevOps",
+        "start_date": "2022-11-23",
+        "salary_usd": 99000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Marcus Anderson",
+        "email": "manderson@acme.com",
+        "department": "QA",
+        "start_date": "2019-12-18",
+        "salary_usd": 140000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Yuki Berg",
+        "email": "yberg@datapipe.eu",
+        "department": "DevOps",
+        "start_date": "2019-09-06",
+        "salary_usd": 190000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Robert Kim",
+        "email": "rkim@northwind.se",
+        "department": "Sales",
+        "start_date": "2020-11-28",
+        "salary_usd": 163000.0,
+        "manager_name": "Jane Doe"
+      },
+      {
+        "full_name": "Lena Rivera",
+        "email": "lrivera@northwind.se",
+        "department": "QA",
+        "start_date": "2019-01-20",
+        "salary_usd": 167000.0,
+        "manager_name": "Alex Kim"
+      },
+      {
+        "full_name": "Lena Petrov",
+        "email": "lpetrov@initech.co.uk",
+        "department": "HR",
+        "start_date": "2024-04-22",
+        "salary_usd": 140000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Diana Schmidt",
+        "email": "dschmidt@globex.de",
+        "department": "HR",
+        "start_date": "2025-08-11",
+        "salary_usd": 78000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Priya Ali",
+        "email": "pali@northwind.se",
+        "department": "Sales",
+        "start_date": "2020-02-18",
+        "salary_usd": 189000.0,
+        "manager_name": "Pam Beesly"
+      }
+    ],
+    "challenges": [
+      "mixed_salary_formats",
+      "extra_distractor_columns"
+    ],
+    "date_format": "YYYY-MM-DD",
+    "salary_format": "mixed_per_row"
+  },
+  {
+    "csv_file": "test_105.csv",
+    "column_mapping": {
+      "worker_name": "full_name",
+      "work_email": "email",
+      "unit": "department",
+      "hire_date": "start_date",
+      "compensation": "salary_usd",
+      "reports_to": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Jessica Rivera",
+        "email": "jrivera@initech.co.uk",
+        "department": "HR",
+        "start_date": "2025-03-15",
+        "salary_usd": 199000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Omar Petrov",
+        "email": "opetrov@acme.com",
+        "department": "DevOps",
+        "start_date": "2019-05-22",
+        "salary_usd": 94000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Ahmed Johansson",
+        "email": "ajohansson@northwind.se",
+        "department": "Marketing",
+        "start_date": "2023-05-10",
+        "salary_usd": 113000.0,
+        "manager_name": "Bob Wilson"
+      },
+      {
+        "full_name": "Ingrid Lee",
+        "email": "ilee@northwind.se",
+        "department": "Analytics",
+        "start_date": "2019-05-28",
+        "salary_usd": 83000.0,
+        "manager_name": "Carlos Rivera"
+      },
+      {
+        "full_name": "Diana Singh",
+        "email": "dsingh@acme.com",
+        "department": "R&D",
+        "start_date": "2021-03-21",
+        "salary_usd": 101000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Wei Taylor",
+        "email": "wtaylor@northwind.se",
+        "department": "Engineering",
+        "start_date": "2024-02-03",
+        "salary_usd": 98000.0,
+        "manager_name": "Diana Lee"
+      },
+      {
+        "full_name": "Yuki Nguyen",
+        "email": "ynguyen@northwind.se",
+        "department": "DevOps",
+        "start_date": "2020-03-14",
+        "salary_usd": 70000.0,
+        "manager_name": "Pam Beesly"
+      }
+    ],
+    "challenges": [
+      "monthly_salary_not_annual",
+      "extra_distractor_columns"
+    ],
+    "date_format": "MM/DD/YYYY",
+    "salary_format": "monthly_numeric"
+  },
+  {
+    "csv_file": "test_106.csv",
+    "column_mapping": {
+      "associate": "full_name",
+      "email": "email",
+      "group": "department",
+      "onboard_date": "start_date",
+      "pay_rate": "salary_usd",
+      "supervisor": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Kenji Anderson",
+        "email": "kanderson@globex.de",
+        "department": "Sales",
+        "start_date": "2023-06-25",
+        "salary_usd": 164000.0,
+        "manager_name": "Alex Kim"
+      },
+      {
+        "full_name": "Olga Rivera",
+        "email": "orivera@globex.de",
+        "department": "Marketing",
+        "start_date": "2020-07-01",
+        "salary_usd": 145000.0,
+        "manager_name": "Carlos Rivera"
+      },
+      {
+        "full_name": "Carlos Lee",
+        "email": "clee@globex.de",
+        "department": "Sales",
+        "start_date": "2019-07-28",
+        "salary_usd": 180000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Ingrid Martinez",
+        "email": "imartinez@initech.co.uk",
+        "department": "HR",
+        "start_date": "2019-04-08",
+        "salary_usd": 109000.0,
+        "manager_name": "Carlos Rivera"
+      },
+      {
+        "full_name": "Svetlana Lee",
+        "email": "slee@acme.com",
+        "department": "HR",
+        "start_date": "2023-06-21",
+        "salary_usd": 162000.0,
+        "manager_name": "Diana Lee"
+      }
+    ],
+    "challenges": [
+      "monthly_salary_not_annual",
+      "extra_distractor_columns"
+    ],
+    "date_format": "MM/DD/YYYY",
+    "salary_format": "monthly_numeric"
+  },
+  {
+    "csv_file": "test_107.csv",
+    "column_mapping": {
+      "staff_name": "full_name",
+      "staff_email": "email",
+      "team": "department",
+      "joined": "start_date",
+      "gross_pay": "salary_usd",
+      "lead": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Ahmed Lee",
+        "email": "alee@globex.de",
+        "department": "QA",
+        "start_date": "2019-05-02",
+        "salary_usd": 171000.0,
+        "manager_name": "Bob Wilson"
+      },
+      {
+        "full_name": "Svetlana Taylor",
+        "email": "staylor@northwind.se",
+        "department": "DevOps",
+        "start_date": "2023-02-13",
+        "salary_usd": 108000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Yuki Taylor",
+        "email": "ytaylor@acme.com",
+        "department": "DevOps",
+        "start_date": "2024-09-22",
+        "salary_usd": 110000.0,
+        "manager_name": "Bob Wilson"
+      },
+      {
+        "full_name": "Hans Kim",
+        "email": "hkim@initech.co.uk",
+        "department": "QA",
+        "start_date": "2025-06-22",
+        "salary_usd": 91000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Astrid Wilson",
+        "email": "awilson@datapipe.eu",
+        "department": "R&D",
+        "start_date": "2021-07-23",
+        "salary_usd": 92000.0,
+        "manager_name": "Sarah Connor"
+      }
+    ],
+    "challenges": [
+      "monthly_salary_not_annual",
+      "extra_distractor_columns"
+    ],
+    "date_format": "MM/DD/YYYY",
+    "salary_format": "monthly_numeric"
+  },
+  {
+    "csv_file": "test_108.csv",
+    "column_mapping": {
+      "emp_name": "full_name",
+      "email_id": "email",
+      "function": "department",
+      "start_date": "start_date",
+      "base_comp": "salary_usd",
+      "manager": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Robert Ali",
+        "email": "rali@northwind.se",
+        "department": "HR",
+        "start_date": "2025-07-18",
+        "salary_usd": 60000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Marcus Anderson",
+        "email": "manderson@datapipe.eu",
+        "department": "QA",
+        "start_date": "2021-10-21",
+        "salary_usd": 179000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Priya Anderson",
+        "email": "panderson@northwind.se",
+        "department": "Analytics",
+        "start_date": "2024-12-06",
+        "salary_usd": 81000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Astrid Ali",
+        "email": "aali@initech.co.uk",
+        "department": "Sales",
+        "start_date": "2021-04-22",
+        "salary_usd": 117000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Olga Mueller",
+        "email": "omueller@acme.com",
+        "department": "Finance",
+        "start_date": "2025-08-20",
+        "salary_usd": 78000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Hans Berg",
+        "email": "hberg@globex.de",
+        "department": "Product",
+        "start_date": "2020-08-13",
+        "salary_usd": 97000.0,
+        "manager_name": "Tom Brown"
+      },
+      {
+        "full_name": "Ahmed Taylor",
+        "email": "ataylor@globex.de",
+        "department": "Marketing",
+        "start_date": "2022-12-17",
+        "salary_usd": 72000.0,
+        "manager_name": "Diana Lee"
+      },
+      {
+        "full_name": "Carlos Johansson",
+        "email": "cjohansson@datapipe.eu",
+        "department": "Marketing",
+        "start_date": "2023-08-22",
+        "salary_usd": 141000.0,
+        "manager_name": "Eva Green"
+      }
+    ],
+    "challenges": [
+      "monthly_salary_not_annual",
+      "extra_distractor_columns"
+    ],
+    "date_format": "MM/DD/YYYY",
+    "salary_format": "monthly_numeric"
+  },
+  {
+    "csv_file": "test_109.csv",
+    "column_mapping": {
+      "nombre": "full_name",
+      "correo": "email",
+      "\u00e1rea": "department",
+      "fecha_inicio": "start_date",
+      "remuneraci\u00f3n": "salary_usd",
+      "jefe": "manager_name"
+    },
+    "expected_output": [
+      {
+        "full_name": "Wei Martinez",
+        "email": "wmartinez@globex.de",
+        "department": "Analytics",
+        "start_date": "2025-08-09",
+        "salary_usd": 123000.0,
+        "manager_name": "Pam Beesly"
+      },
+      {
+        "full_name": "Astrid Fischer",
+        "email": "afischer@globex.de",
+        "department": "HR",
+        "start_date": "2024-08-03",
+        "salary_usd": 133000.0,
+        "manager_name": "Sarah Connor"
+      },
+      {
+        "full_name": "Diana Kowalski",
+        "email": "dkowalski@initech.co.uk",
+        "department": "DevOps",
+        "start_date": "2020-02-05",
+        "salary_usd": 119000.0,
+        "manager_name": "Carlos Rivera"
+      },
+      {
+        "full_name": "Olga Anderson",
+        "email": "oanderson@acme.com",
+        "department": "Product",
+        "start_date": "2023-07-11",
+        "salary_usd": 179000.0,
+        "manager_name": "Carlos Rivera"
+      },
+      {
+        "full_name": "Yuki Anderson",
+        "email": "yanderson@datapipe.eu",
+        "department": "Product",
+        "start_date": "2019-10-23",
+        "salary_usd": 157000.0,
+        "manager_name": "Eva Green"
+      },
+      {
+        "full_name": "Tariq Nguyen",
+        "email": "tnguyen@initech.co.uk",
+        "department": "Product",
+        "start_date": "2024-07-18",
+        "salary_usd": 199000.0,
+        "manager_name": "Alex Kim"
+      },
+      {
+        "full_name": "Carlos Fischer",
+        "email": "cfischer@globex.de",
+        "department": "HR",
+        "start_date": "2019-07-16",
+        "salary_usd": 159000.0,
+        "manager_name": "Bob Wilson"
+      },
+      {
+        "full_name": "Fatima Brown",
+        "email": "fbrown@datapipe.eu",
+        "department": "Marketing",
+        "start_date": "2019-10-18",
+        "salary_usd": 160000.0,
+        "manager_name": "Alex Kim"
+      }
+    ],
+    "challenges": [
+      "monthly_salary_not_annual",
+      "extra_distractor_columns"
+    ],
+    "date_format": "MM/DD/YYYY",
+    "salary_format": "monthly_numeric"
+  }
+]
