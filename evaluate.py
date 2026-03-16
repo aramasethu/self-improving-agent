@@ -180,7 +180,7 @@ def composite_score(schema_accuracy: float, execution_success: float, field_corr
     return 0.3 * schema_accuracy + 0.3 * execution_success + 0.4 * field_correctness
 
 
-def compute_composite_for_csvs(csv_files: list[str], ground_truth_path: str = GROUND_TRUTH) -> float:
+def compute_composite_for_csvs(csv_files: list[str], ground_truth_path: str = GROUND_TRUTH, agent_output_dir: str = AGENT_OUTPUT_DIR) -> float:
     """Compute average composite score for a specific list of CSV filenames.
 
     Reads agent outputs from disk and scores against ground truth.
@@ -193,7 +193,7 @@ def compute_composite_for_csvs(csv_files: list[str], ground_truth_path: str = GR
     scores = []
     for csv_file in csv_files:
         base_name = os.path.splitext(csv_file)[0]
-        agent_output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
+        agent_output_path = os.path.join(agent_output_dir, f"{base_name}.json")
 
         gt_entry = gt_lookup.get(csv_file)
         if not gt_entry or not os.path.exists(agent_output_path):
@@ -219,7 +219,7 @@ def compute_composite_for_csvs(csv_files: list[str], ground_truth_path: str = GR
 # ---------------------------------------------------------------------------
 # Main evaluation loop
 # ---------------------------------------------------------------------------
-def run_evaluation(num_batches: int = NUM_BATCHES):
+def run_evaluation(num_batches: int = NUM_BATCHES, agent_output_dir: str = AGENT_OUTPUT_DIR):
     with open(GROUND_TRUTH) as f:
         all_gt = json.load(f)
 
@@ -248,7 +248,7 @@ def run_evaluation(num_batches: int = NUM_BATCHES):
             global_idx = start + i
             csv_file = gt_entry["csv_file"]
             base_name = os.path.splitext(csv_file)[0]
-            agent_output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
+            agent_output_path = os.path.join(agent_output_dir, f"{base_name}.json")
 
             # Load agent output
             if not os.path.exists(agent_output_path):
