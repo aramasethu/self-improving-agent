@@ -11,6 +11,7 @@ Self-improvement:
 """
 
 import json
+import logging
 import os
 import sqlite3
 import sys
@@ -18,6 +19,8 @@ import uuid
 import pandas as pd
 from dotenv import load_dotenv
 from typing import TypedDict
+
+log = logging.getLogger(__name__)
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
@@ -242,12 +245,12 @@ def maybe_trigger_analysis(run_count: int):
     """Trigger trace analysis if we've hit the N-run threshold."""
     n = HOOK_CONFIG["analyze_every_n_runs"]
     if n > 0 and run_count % n == 0:
-        print(f"\n  [auto-analysis] Triggered after {run_count} runs")
+        log.info("Auto-analysis triggered after %d runs", run_count)
         try:
             from analyze_traces import run_analysis
             run_analysis(min_failures=2)
         except Exception as e:
-            print(f"  [auto-analysis] Failed: {e}")
+            log.warning("Auto-analysis failed: %s", e)
 
 
 # ---------------------------------------------------------------------------
@@ -486,12 +489,12 @@ def should_retry(state: AgentState) -> str:
     max_retries = HOOK_CONFIG["max_retries"]
 
     if retry_count < max_retries and _llm_call_count < MAX_LLM_CALLS_PER_RUN:
-        print(f"    [hook] Retry {retry_count + 1}/{max_retries} "
-              f"(LLM calls: {_llm_call_count}/{MAX_LLM_CALLS_PER_RUN}): {state['error'][:80]}")
+        log.info("Retry %d/%d (LLM calls: %d/%d): %s",
+                 retry_count + 1, max_retries, _llm_call_count, MAX_LLM_CALLS_PER_RUN, state['error'][:80])
         return "retry_generate"
     else:
         if _llm_call_count >= MAX_LLM_CALLS_PER_RUN:
-            print(f"    [hook] Budget exhausted ({_llm_call_count}/{MAX_LLM_CALLS_PER_RUN}), skipping retry")
+            log.info("Budget exhausted (%d/%d), skipping retry", _llm_call_count, MAX_LLM_CALLS_PER_RUN)
         return "validate_output"
 
 
@@ -552,7 +555,7 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None, metadata: dict
     global _llm_call_count
     _llm_call_count = 0  # reset budget for each CSV
 
-    print(f"Processing: {csv_path}")
+    log.info("Processing: %s", csv_path)
 
     app = build_graph()
 
@@ -616,7 +619,7 @@ def run_migration(csv_path: str, run_id: uuid.UUID | None = None, metadata: dict
     with open(output_path, "w") as f:
         json.dump(serializable, f, indent=2, default=str)
 
-    print(f"  Saved: {output_path}")
+    log.info("Saved: %s", output_path)
 
     # Track run count and maybe trigger analysis
     run_count = increment_run_counter()
@@ -638,18 +641,11 @@ def run_all(test_dir: str = "data/test", ground_truth_path: str = "data/ground_t
                 gt_lookup[entry["csv_file"]] = entry
 
     csv_files = sorted(f for f in os.listdir(test_dir) if f.endswith(".csv"))
-    print(f"Running agent on {len(csv_files)} CSVs from {test_dir}/ (iteration {iteration})")
-    print(f"Hook config: max_retries={HOOK_CONFIG['max_retries']}, "
-          f"max_llm_calls={HOOK_CONFIG['max_llm_calls']}, "
-          f"analyze_every={HOOK_CONFIG['analyze_every_n_runs']}")
+    log.info("Running agent on %d CSVs (iteration %d)", len(csv_files), iteration)
 
-    # Show loaded rules
     rules = load_rules()
-    if rules:
-        print(f"Loaded {len(rules)} improvement rules")
-    else:
-        print("No improvement rules loaded (first run)")
-    print()
+    log.info("Rules loaded: %d | max_retries=%d | max_llm_calls=%d",
+             len(rules), HOOK_CONFIG['max_retries'], HOOK_CONFIG['max_llm_calls'])
 
     for csv_file in csv_files:
         csv_path = os.path.join(test_dir, csv_file)
@@ -666,7 +662,7 @@ def run_all(test_dir: str = "data/test", ground_truth_path: str = "data/ground_t
         try:
             run_migration(csv_path, metadata=metadata, iteration=iteration)
         except Exception as e:
-            print(f"  ERROR: {e}")
+            log.error("Failed on %s: %s", csv_file, e)
             os.makedirs(AGENT_OUTPUT_DIR, exist_ok=True)
             base_name = os.path.splitext(csv_file)[0]
             output_path = os.path.join(AGENT_OUTPUT_DIR, f"{base_name}.json")
@@ -687,10 +683,11 @@ def run_all(test_dir: str = "data/test", ground_truth_path: str = "data/ground_t
                     "llm_call_count": _llm_call_count,
                 }, f, indent=2)
 
-    print(f"\nDone. Results saved to {AGENT_OUTPUT_DIR}/")
+    log.info("Done. Results saved to %s/", AGENT_OUTPUT_DIR)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     if len(sys.argv) > 1:
         run_migration(sys.argv[1])
     else:
