@@ -1,20 +1,19 @@
 """
 Run 3 iterations of the self-improving agent and evaluate each.
 
-Iteration 1: Baseline — no rules, fresh start
-Iteration 2: Analyze traces from iteration 1, then run with learned rules
-Iteration 3: Analyze traces from iteration 2, accumulate more rules, then run
-
-Each iteration is tagged in LangSmith (iteration-1, iteration-2, iteration-3).
-Evaluation results are saved with timestamps so all 3 can be compared afterward.
-
 Usage:
-  uv run run_iterations.py
+  uv run scripts/run_iterations.py
 """
 
 import json
+import logging
 import os
 import shutil
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+log = logging.getLogger(__name__)
 
 RULES_FILE = "rules/improvement_rules.json"
 ITERATION_COUNTER_FILE = "rules/.iteration_counter"
