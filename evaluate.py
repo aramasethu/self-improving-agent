@@ -32,8 +32,8 @@ ls_client = Client()
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-BATCH_SIZE = 20
-NUM_BATCHES = 6
+BATCH_SIZE = 10
+NUM_BATCHES = 11
 GROUND_TRUTH = "data/ground_truth.json"
 AGENT_OUTPUT_DIR = "results/agent_outputs"
 EVAL_RESULTS_DIR = "results/evaluations"
@@ -83,6 +83,11 @@ def score_execution(agent_result: dict) -> dict:
 def record_feedback(run_id: str, schema_score: dict, exec_score: dict, field_score: dict):
     """Push evaluation scores as LangSmith feedback on the traced run."""
     if not run_id:
+        return
+    try:
+        ls_client.read_run(run_id)
+    except Exception:
+        log.debug("Run %s not found in LangSmith, skipping feedback", run_id)
         return
     try:
         ls_client.create_feedback(
